@@ -15,7 +15,7 @@ public class VavrTest {
     @Test
     void optionShouldBeEmptyWhenInitializedWithNull() {
         final var initializedWithNull = Option.of(null);
-        assertFalse(initializedWithNull.isEmpty());
+        assertTrue(initializedWithNull.isEmpty());
     }
 
     @Test
