@@ -2,9 +2,7 @@ name: dockerhub
 
 on:
   push:
-    branches: [ main, feature/*, fix/* ]
-  pull_request:
-    branches: [ main, feature/*, fix/* ]
+    branches: [ main ]
 
 jobs:
   dockerhub:
