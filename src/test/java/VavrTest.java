@@ -1,5 +1,3 @@
-package clean.code.vavr;
-
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.junit.jupiter.api.Test;
@@ -17,7 +15,7 @@ public class VavrTest {
     @Test
     void optionShouldBeEmptyWhenInitializedWithNull() {
         final var initializedWithNull = Option.of(null);
-        assertTrue(initializedWithNull.isEmpty());
+        assertFalse(initializedWithNull.isEmpty());
     }
 
     @Test
