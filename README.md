@@ -19,7 +19,8 @@ la branche principale et toutes les branches `feature/*` et `fix/*`.
 
 Les tests ont été écrits avec Junit 5.
 
-Tous les tests sont lancés, mais ne sont pas bloquant pour pouvoir récupérer un rapport complet.
+Tous les tests sont lancés pour pouvoir récupérer un rapport complet.
+À la fin de la génération du rapport, si au moins un test a échoué, la pipeline est alors en erreur. 
 
 Le rapport est généré avec le plugin maven-surefire-plugin.
 Il est ensuite affiché dans l'action github grace à l'étape `Report` 
