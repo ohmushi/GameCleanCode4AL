@@ -34,7 +34,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Run mvn test
+      - name: Generate Report
         run: mvn --batch-mode --update-snapshots -Dmaven.test.failure.ignore=true test
 
       - name: Report
@@ -45,7 +45,8 @@ jobs:
           path: target/surefire-reports/*.xml
           reporter: java-junit
           fail-on-error: true
-      - name: Build and analyze
+
+      - name: Sonar analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
