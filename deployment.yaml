@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: 4al1-groupe-1
+  name: game-clean-code-deployment
+  labels:
+    app: heroes
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: heroes
+  template:
+    metadata:
+      labels:
+        app: heroes
+    spec:
+      containers:
+        - name: heroes-container
+          image: pbonnamy/game_clean_code_4al:49589d9ef9432c58ddfab97a75edb669d138abfe
+          ports:
+            - containerPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: 4al1-groupe-1
+  name: api-service
+spec:
+  selector:
+    app: heroes
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+
