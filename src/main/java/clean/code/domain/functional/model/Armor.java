@@ -1,4 +1,4 @@
-package clean.code.domain;
+package clean.code.domain.functional.model;
 
 final class Armor {
 
