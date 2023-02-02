@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: IngressClass
 metadata:
-  namespace: 4al1-groupe-1
+  namespace: {{ .Values.namespace }}
   labels:
     app.kubernetes.io/component: controller
   name: api-ingress-class
@@ -16,7 +16,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: api-ingress
-  namespace: 4al1-groupe-1
+  namespace: {{ .Values.namespace }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/issuer: "letsencrypt-staging"
@@ -24,10 +24,10 @@ spec:
   ingressClassName: api-ingress-class
   tls:
     - hosts:
-        - backend.al1.groupe1.jbienvenu.fr
+        - {{ .Values.ingress.host }}
       secretName: api-ingress-tls
   rules:
-    - host: backend.al1.groupe1.jbienvenu.fr
+    - host: {{ .Values.ingress.host }}
       http:
         paths:
           - path: /
@@ -36,4 +36,4 @@ spec:
               service:
                 name: api-service
                 port:
-                  number: 8080
+                  number: {{ .Values.port }}

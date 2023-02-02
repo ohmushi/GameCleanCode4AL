@@ -1,3 +1,15 @@
-favorite:
-  drink: coffee
-  food: pizza
+namespace: 4al1-groupe-1
+port: 8080
+replicas: 2
+
+ingress:
+  host: backend.al1.groupe1.jbienvenu.fr
+
+dockerhub:
+  username: pbonnamy
+  repository: game_clean_code_4al
+  tag: latest
+
+acme:
+  url: https://acme-staging-v02.api.letsencrypt.org/directory
+  email: jimbienvenu@gmail.com
