@@ -23,7 +23,7 @@ jobs:
           chart: 'api-chart'
           token: '${{ github.token }}'
           values:
-            dockerhubTag: '${{ github.sha }}'
+            dockerhubTag: ${{ github.sha }}
           value-file: 'api-chart/values.yaml'
         env:
           KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
