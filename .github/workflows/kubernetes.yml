@@ -6,6 +6,9 @@ on:
     types:
       - completed
 
+env:
+  KUBECONFIG: kubeconfig.yaml
+
 jobs:
   kubernetes:
     runs-on: ubuntu-latest
