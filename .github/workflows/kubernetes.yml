@@ -6,6 +6,9 @@ on:
     types:
       - completed
 
+env:
+  KUBECONFIG: ${{ secrets.KUBECONFIG }}
+
 jobs:
   kubernetes:
     runs-on: ubuntu-latest
@@ -14,16 +17,12 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
 
-      - uses: actions/checkout@v1
+      - name: Setup Helm
+        run: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
-      - name: 'Deploy'
-        uses: 'deliverybot/helm@v1'
-        with:
-          release: 'full-coral'
-          chart: 'api-chart'
-          token: '${{ github.token }}'
-          values:
-            dockerhubTag: ${{ github.sha }}
-          value-file: 'api-chart/values.yaml'
-        env:
-          KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
+      - name: Package Helm Chart
+        run: helm package .
+
+      - name: Deploy to Kubernetes
+        run: helm upgrade full-coral . --install --set dockerhub.tag=${{ github.sha }}
+
