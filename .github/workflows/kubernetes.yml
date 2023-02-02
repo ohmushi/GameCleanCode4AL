@@ -27,4 +27,4 @@ jobs:
         run: echo "${{ secrets.KUBECONFIG }}" > kubeconfig.yml
 
       - name: Deploy to Kubernetes
-        run: helm upgrade full-coral . --install --set dockerhub.tag=${{ github.sha }}
+        run:  helm --kubeconfig kubeconfig.yaml upgrade full-coral ./api-chart --install --set dockerhub.tag=${{ github.sha }}
