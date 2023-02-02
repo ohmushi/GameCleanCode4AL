@@ -1,8 +1,10 @@
 name: kubernetes
 
 on:
-  push:
-    branches: [ main ]
+  workflow_run:
+    workflows: ["dockerhub"]
+    types:
+      - completed
 
 jobs:
   kubernetes:
@@ -12,4 +14,11 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
 
-      - name: Deploy to kubernetes with helm
+      - name: Setup Helm
+        uses: Helm/setup-helm@v1
+
+      - name: Package Helm Chart
+        run: helm package api-chart
+
+      - name: Deploy to Kubernetes
+        run: helm upgrade full-coral --set dockerhub.tag=${{ github.sha }}
