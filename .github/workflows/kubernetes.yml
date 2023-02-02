@@ -14,11 +14,16 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
 
-      - name: Setup Helm
-        uses: Helm/setup-helm@v1
+      - uses: actions/checkout@v1
 
-      - name: Package Helm Chart
-        run: helm package api-chart
-
-      - name: Deploy to Kubernetes
-        run: helm upgrade full-coral --set dockerhub.tag=${{ github.sha }}
+      - name: 'Deploy'
+        uses: 'deliverybot/helm@v1'
+        with:
+          release: 'full-coral'
+          chart: 'api-chart'
+          token: '${{ github.token }}'
+          values:
+            dockerhub:
+              tag: '${{ github.sha }}'
+        env:
+          KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
