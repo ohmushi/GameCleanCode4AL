@@ -6,9 +6,6 @@ on:
     types:
       - completed
 
-env:
-  KUBECONFIG: ${{ secrets.KUBECONFIG }}
-
 jobs:
   kubernetes:
     runs-on: ubuntu-latest
@@ -22,6 +19,9 @@ jobs:
 
       - name: Package Helm Chart
         run: helm package ./api-chart
+
+      - name: Create kubeconfig
+        run: echo "${{ secrets.KUBECONFIG }}" > kubeconfig.yml
 
       - name: Deploy to Kubernetes
         run: helm upgrade full-coral . --install --set dockerhub.tag=${{ github.sha }}
