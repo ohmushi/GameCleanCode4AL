@@ -1,0 +1,15 @@
+name: kubernetes
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  kubernetes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Deploy to kubernetes with helm
