@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Values.namespace }}
+  name: {{ .Release.Name }}-deployment
+  labels:
+    app: heroes
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: heroes
+  template:
+    metadata:
+      labels:
+        app: heroes
+    spec:
+      containers:
+        - name: heroes-container
+          image: {{ .Values.dockerhub.username }}/{{ .Values.dockerhub.repository }}:{{ .Values.dockerhub.tag }}
+          ports:
+            - containerPort: {{ .Values.port }}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: {{ .Values.namespace }}
+  name: api-service
+spec:
+  selector:
+    app: heroes
+  ports:
+    - protocol: TCP
+      port: {{ .Values.port }}
+      targetPort: {{ .Values.port }}
+

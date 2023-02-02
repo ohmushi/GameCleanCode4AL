@@ -54,3 +54,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Deployment
+kubeconfig.yaml

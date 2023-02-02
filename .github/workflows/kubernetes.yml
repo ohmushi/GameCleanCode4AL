@@ -1,0 +1,30 @@
+name: kubernetes
+
+on:
+  workflow_run:
+    workflows: ["dockerhub"]
+    types:
+      - completed
+
+env:
+  KUBECONFIG: kubeconfig.yaml
+
+jobs:
+  kubernetes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Setup Helm
+        run: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+      - name: Package Helm Chart
+        run: helm package ./api-chart
+
+      - name: Create kubeconfig
+        run: echo "${{ secrets.KUBECONFIG }}" > kubeconfig.yaml
+
+      - name: Deploy to Kubernetes
+        run:  helm --kubeconfig kubeconfig.yaml upgrade full-coral ./api-chart --install --set dockerhub.tag=${{ github.sha }}
