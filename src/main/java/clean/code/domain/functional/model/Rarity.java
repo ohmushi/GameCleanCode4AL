@@ -1,4 +1,4 @@
 package clean.code.domain.functional.model;
 
-interface Rarity {
+public class Rarity {
 }

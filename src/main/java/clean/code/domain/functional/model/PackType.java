@@ -1,4 +1,6 @@
 package clean.code.domain.functional.model;
 
-public class Speciality {
+public enum PackType {
+    SILVER,
+    DIAMOND
 }
