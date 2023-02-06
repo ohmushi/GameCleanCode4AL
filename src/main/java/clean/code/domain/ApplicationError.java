@@ -1,3 +1,3 @@
 package clean.code.domain;
 
-public record ApplicationError(String context, String message, Throwable cause) {}
+public record ApplicationError(String context, String message, Object value, Throwable cause) {}
