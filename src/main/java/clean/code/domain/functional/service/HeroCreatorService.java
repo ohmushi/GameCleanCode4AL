@@ -14,6 +14,6 @@ public class HeroCreatorService implements HeroCreatorApi {
 
     @Override
     public Either<ApplicationError, Hero> create(Hero hero) {
-        return Either.right(spi.save(hero));
+        return spi.save(hero);
     }
 }
