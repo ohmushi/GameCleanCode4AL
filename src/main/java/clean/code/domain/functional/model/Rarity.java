@@ -1,4 +1,7 @@
 package clean.code.domain.functional.model;
 
-public class Rarity {
+public enum Rarity {
+    COMMON,
+    RARE,
+    LEGENDARY
 }

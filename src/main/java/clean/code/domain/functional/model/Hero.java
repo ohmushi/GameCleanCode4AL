@@ -2,22 +2,19 @@ package clean.code.domain.functional.model;
 
 
 import lombok.*;
-import lombok.experimental.FieldDefaults;
 
-@Getter
 @With
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-@AllArgsConstructor
+@Value
 @Builder
 @ToString
 @EqualsAndHashCode
-public final class Hero {
+public class Hero {
     String name;
     int hp;
-    int xp;
+    int xp = 0;
     int power;
-    Armor armor;
+    int armor;
     Speciality speciality;
     Rarity rarity;
-    int level;
+    int level = 1;
 }
