@@ -21,7 +21,7 @@ public class HeroController {
     public ResponseEntity<Object> createHero(@RequestBody HeroCreationDto dto) {
 
         return heroCreatorApi
-                .create(HeroDtoMapper.heroCreationToDomain(dto)
+                .create(HeroDtoMapper.heroCreationToDomain(dto))
                 .map(HeroDtoMapper::toDto)
                 .fold(ResponseEntity.badRequest()::body, ResponseEntity::ok);
     }
