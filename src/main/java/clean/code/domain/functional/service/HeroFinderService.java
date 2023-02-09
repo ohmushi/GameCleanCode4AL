@@ -24,7 +24,7 @@ public class HeroFinderService implements HeroFinderApi {
         var hero = spi.findById(id);
 
         if (hero.isEmpty()) {
-            return Either.left(new ApplicationError("Hero not found", null, id, null));
+            return Either.left(new ApplicationError("Hero not found", id, null));
         } else {
             return Either.right(hero.get());
         }

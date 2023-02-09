@@ -7,7 +7,7 @@ import io.vavr.control.Validation;
 public interface HeroValidator {
     static Validation<ApplicationError, Hero> validate(Hero hero) {
         if (hero.getName().isEmpty()) {
-            return Validation.invalid(new ApplicationError("Name required", "You must provide a hero name", hero, null));
+            return Validation.invalid(new ApplicationError("The name should not be empty", hero, null));
         } else {
             return Validation.valid(hero);
         }

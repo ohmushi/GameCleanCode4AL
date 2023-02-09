@@ -24,7 +24,7 @@ public class HeroDatabaseAdapter implements HeroPersistenceSpi {
     public Either<ApplicationError, Hero> save(Hero hero) {
         return API.Try(() -> repository.save(HeroEntityMapper.toEntity(hero)))
                 .toEither()
-                .mapLeft(throwable -> new ApplicationError("Unable to save hero", null, hero, throwable))
+                .mapLeft(throwable -> new ApplicationError("Unable to save hero", hero, throwable))
                 .map(HeroEntityMapper::toDomain);
     }
 
