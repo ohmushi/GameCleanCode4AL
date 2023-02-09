@@ -3,9 +3,10 @@ package clean.code.server.adapter;
 import clean.code.domain.ApplicationError;
 import clean.code.domain.functional.model.Hero;
 import clean.code.domain.ports.server.HeroPersistenceSpi;
+import clean.code.server.mapper.HeroEntityMapper;
 import clean.code.server.repository.HeroRepository;
+import io.vavr.API;
 import io.vavr.control.Either;
-import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,16 +22,19 @@ public class HeroDatabaseAdapter implements HeroPersistenceSpi {
 
     @Override
     public Either<ApplicationError, Hero> save(Hero hero) {
-        return null;
+        return API.Try(() -> repository.save(HeroEntityMapper.toEntity(hero)))
+                .toEither()
+                .mapLeft(throwable -> new ApplicationError("Unable to save hero", null, hero, throwable))
+                .map(HeroEntityMapper::toDomain);
     }
 
     @Override
     public List<Hero> findAll() {
-        return Collections.emptyList();
+        return repository.findAll().stream().map(HeroEntityMapper::toDomain).toList();
     }
 
     @Override
     public Optional<Hero> findById(UUID id) {
-        return Optional.empty();
+        return repository.findById(id).map(HeroEntityMapper::toDomain);
     }
 }
