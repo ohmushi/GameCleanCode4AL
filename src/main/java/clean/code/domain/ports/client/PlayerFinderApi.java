@@ -6,9 +6,10 @@ import clean.code.domain.functional.model.Player;
 import io.vavr.control.Either;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface PlayerFinderApi {
-    Either<ApplicationError, Player> findOne();
+    Either<ApplicationError, Player> findById(UUID playerId);
 
-    Either<ApplicationError, List<Player>> findAll();
+    Either<ApplicationError, List<Player>> findByNickname(String nickname);
 }
