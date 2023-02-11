@@ -3,8 +3,6 @@ package clean.code.client.mapper;
 import clean.code.client.dto.HeroCreationDto;
 import clean.code.client.dto.HeroDto;
 import clean.code.domain.functional.model.Hero;
-import clean.code.domain.functional.model.Rarity;
-import clean.code.domain.functional.model.Speciality;
 
 public interface HeroDtoMapper {
 
@@ -16,8 +14,8 @@ public interface HeroDtoMapper {
             hero.getXp(),
             hero.getPower(),
             hero.getArmor(),
-            hero.getSpeciality().name(),
-            hero.getRarity().name(),
+            hero.getSpeciality(),
+            hero.getRarity(),
             hero.getLevel()
         );
     }
@@ -28,8 +26,8 @@ public interface HeroDtoMapper {
             .hp(dto.hp())
             .power(dto.power())
             .armor(dto.armor())
-            .speciality(Speciality.valueOf(dto.speciality()))
-            .rarity(Rarity.valueOf(dto.rarity()))
+            .speciality(dto.speciality())
+            .rarity(dto.rarity())
             .build();
     }
 }

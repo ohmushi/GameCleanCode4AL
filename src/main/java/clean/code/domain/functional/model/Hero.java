@@ -25,9 +25,9 @@ public class Hero {
 
     int armor;
 
-    Speciality speciality;
+    String speciality;
 
-    Rarity rarity;
+    String rarity;
 
     @Builder.Default
     int level = 1;

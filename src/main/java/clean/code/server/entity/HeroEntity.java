@@ -11,7 +11,7 @@ import java.util.UUID;
 @Document(collection = "heroes")
 public class HeroEntity {
     @Id
-    private UUID id;
+    private String id;
 
     private String name;
 
