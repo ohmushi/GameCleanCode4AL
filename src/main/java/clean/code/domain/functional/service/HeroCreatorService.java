@@ -15,9 +15,11 @@ public class HeroCreatorService implements HeroCreatorApi {
 
     private final HeroPersistenceSpi spi;
 
+    private final HeroValidator validator;
+
     @Override
     public Either<ApplicationError, Hero> create(Hero hero) {
-        return HeroValidator.validate(hero)
+        return validator.validate(hero)
                 .toEither()
                 .flatMap(spi::save);
     }

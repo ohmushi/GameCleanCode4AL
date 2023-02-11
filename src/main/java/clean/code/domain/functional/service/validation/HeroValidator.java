@@ -8,9 +8,9 @@ import lombok.AllArgsConstructor;
 
 import java.util.Objects;
 
-public interface HeroValidator {
+public class HeroValidator {
 
-    static Validation<ApplicationError, Hero> validate(Hero hero) {
+    public Validation<ApplicationError, Hero> validate(Hero hero) {
         if (hero.getName().isEmpty()) {
             return Validation.invalid(new ApplicationError("The name should not be empty", hero, null));
         } else if (!Objects.equals(hero.getSpeciality(), "TANK") && !Objects.equals(hero.getSpeciality(), "ASSASSIN") && !Objects.equals(hero.getSpeciality(), "WIZARD")) {
