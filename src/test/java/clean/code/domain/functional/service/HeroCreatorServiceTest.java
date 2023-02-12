@@ -4,7 +4,6 @@ import clean.code.domain.ApplicationError;
 import clean.code.domain.functional.model.Hero;
 import clean.code.domain.functional.service.validation.HeroValidator;
 import clean.code.domain.ports.server.HeroPersistenceSpi;
-import clean.code.domain.ports.service.HeroCreatorService;
 import io.vavr.control.Either;
 import io.vavr.control.Validation;
 import lombok.val;

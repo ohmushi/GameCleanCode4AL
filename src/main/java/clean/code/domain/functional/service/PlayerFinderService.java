@@ -1,4 +1,4 @@
-package clean.code.domain.ports.service;
+package clean.code.domain.functional.service;
 
 import clean.code.domain.ApplicationError;
 import clean.code.domain.functional.model.Player;
@@ -21,7 +21,7 @@ public class PlayerFinderService implements PlayerFinderApi {
     }
 
     @Override
-    public Either<ApplicationError, List<Player>> findByNickname(String nickname) {
+    public Either<ApplicationError, List<Player>> findAll(String nickname) {
         return null;
     }
 }
