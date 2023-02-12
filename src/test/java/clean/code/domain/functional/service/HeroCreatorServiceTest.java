@@ -25,7 +25,7 @@ class HeroCreatorServiceTest {
     @Mock private HeroValidator validator;
 
     @Test
-    void should_create_hero() {
+    void should_create() {
         val given = Hero.builder().name("Test hero").power(10).armor(10).hp(10).speciality("TANK").rarity("COMMON").build();
         when(spi.save(given)).thenReturn(Either.right(given));
         when(validator.validate(given)).thenReturn(Validation.valid(given));
@@ -37,7 +37,7 @@ class HeroCreatorServiceTest {
     }
 
     @Test
-    void should_not_create_hero_if_invalid() {
+    void should_not_create_if_invalid() {
         val given = Hero.builder().name("Test hero").power(10).armor(10).hp(10).speciality("TANK").rarity("COMMON").build();
 
         val error = new ApplicationError("The name should not be empty", null, null);

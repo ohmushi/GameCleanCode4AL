@@ -26,7 +26,7 @@ class HeroFinderServiceTest {
     @Mock HeroPersistenceSpi spi;
 
     @Test
-    void should_find_all_heroes() {
+    void should_find_all() {
         val given = Hero.builder().name("Test hero").power(10).armor(10).hp(10).speciality("TANK").rarity("COMMON").build();
         val expected = List.of(given);
         when(spi.findAll()).thenReturn(expected);
@@ -36,7 +36,7 @@ class HeroFinderServiceTest {
     }
 
     @Test
-    void should_find_hero_by_id() {
+    void should_find_by_id() {
         val id = UUID.randomUUID();
         val given = Hero.builder().id(id).name("Test hero").power(10).armor(10).hp(10).speciality("TANK").rarity("COMMON").build();
         when(spi.findById(id)).thenReturn(Optional.of(given));
@@ -46,7 +46,7 @@ class HeroFinderServiceTest {
     }
 
     @Test
-    void should_not_find_hero_by_id() {
+    void should_not_find_by_id() {
         val id = UUID.randomUUID();
         when(spi.findById(id)).thenReturn(Optional.empty());
 
