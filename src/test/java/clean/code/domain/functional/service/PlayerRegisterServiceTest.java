@@ -51,7 +51,7 @@ class PlayerRegisterServiceTest {
 
         try(MockedStatic<PlayerValidator> validator = Mockito.mockStatic(PlayerValidator.class)) {
             validator.when(()-> PlayerValidator.validate(any(Player.class)))
-                    .thenReturn(Invalid(new ApplicationError("Invalid Player", null, null, null)));
+                    .thenReturn(Invalid(new ApplicationError("Invalid Player", null, null)));
 
             val actual = service.register(given);
             assertThat(actual).containsLeftInstanceOf(ApplicationError.class);

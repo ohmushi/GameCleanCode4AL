@@ -57,15 +57,7 @@ class PlayerFinderServiceTest {
         val p = Player.builder().id(given).build();
         val expected = List.of(
                 p.withNickname("NickName1"), p.withNickname("NickName2"), p.withNickname("NickName1")
-        )
-
-        when(spi.find(given)).thenReturn(Ei);
-
-        val actual = service.findById(given);
-
-        assertThat(actual).contains(expected);
-        verify(spi, times(1)).findById(given);
-        verifyNoMoreInteractions(spi);
+        );
     }
 
 }

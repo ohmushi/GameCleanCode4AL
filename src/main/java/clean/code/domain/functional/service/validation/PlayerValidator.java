@@ -10,7 +10,7 @@ import static io.vavr.API.Valid;
 public interface PlayerValidator {
     static Validation<ApplicationError, Player> validate(Player player) {
         return player.getNickname().isBlank() || player.getTokens() < 0 || player.getDeck() == null
-                ? Invalid(new ApplicationError("Invalid Player", null, player, null))
+                ? Invalid(new ApplicationError("Invalid Player", player, null))
                 : Valid(player);
     }
 }
