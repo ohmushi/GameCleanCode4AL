@@ -1,7 +1,9 @@
 package clean.code.domain.functional.service;
 
+import clean.code.domain.ApplicationError;
 import clean.code.domain.functional.model.Player;
 import clean.code.domain.ports.server.PlayerPersistenceSpi;
+import io.vavr.control.Either;
 import io.vavr.control.Option;
 import lombok.val;
 import org.junit.jupiter.api.Test;
@@ -53,11 +55,35 @@ class PlayerFinderServiceTest {
 
     @Test
     void should_find_all_players_by_nickname() {
-        val given = UUID.randomUUID();
-        val p = Player.builder().id(given).build();
+        val given = "NickName";
+        val b = Player.builder();
         val expected = List.of(
-                p.withNickname("NickName1"), p.withNickname("NickName2"), p.withNickname("NickName1")
+                  b.build().withNickname("NickName1")
+                , b.build().withNickname("NickName2")
+                , b.build().withNickname("NickName3")
         );
+
+        when(spi.findAll(given)).thenReturn(Either.right(expected));
+
+        val actual = service.findAll(given);
+
+        assertThat(actual).containsRightSame(expected);
+        verify(spi, times(1)).findAll(given);
+        verifyNoMoreInteractions(spi);
+    }
+
+    @Test
+    void should_get_either_left() {
+        val given = "nickname";
+        val expected = new ApplicationError(null, null, null);
+        when(spi.findAll(anyString()))
+                .thenReturn(Either.left(expected));
+
+        val actual = service.findAll(given);
+
+        assertThat(actual).containsLeftSame(expected);
+        verify(spi, times(1)).findAll(given);
+        verifyNoMoreInteractions(spi);
     }
 
 }

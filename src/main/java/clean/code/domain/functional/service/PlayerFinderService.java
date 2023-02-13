@@ -27,6 +27,7 @@ public class PlayerFinderService implements PlayerFinderApi {
 
     @Override
     public Either<ApplicationError, List<Player>> findAll(String nickname) {
-        return null;
+        return spi.findAll(nickname.trim())
+                .peekLeft(error -> log.info(String.format("Error during finding players with nickname [%s]", nickname), error));
     }
 }
