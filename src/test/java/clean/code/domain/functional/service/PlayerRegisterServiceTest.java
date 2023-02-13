@@ -6,7 +6,6 @@ import clean.code.domain.functional.model.Player;
 import clean.code.domain.functional.service.validation.PlayerValidator;
 import clean.code.domain.ports.server.PlayerPersistenceSpi;
 import io.vavr.control.Either;
-import io.vavr.control.Validation;
 import lombok.val;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

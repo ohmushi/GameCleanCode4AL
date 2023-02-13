@@ -9,7 +9,6 @@ import clean.code.domain.ports.server.PlayerPersistenceSpi;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 
 @Slf4j
 @RequiredArgsConstructor

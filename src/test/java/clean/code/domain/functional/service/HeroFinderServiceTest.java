@@ -3,7 +3,6 @@ package clean.code.domain.functional.service;
 import clean.code.domain.ApplicationError;
 import clean.code.domain.functional.model.Hero;
 import clean.code.domain.ports.server.HeroPersistenceSpi;
-import io.vavr.control.Either;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
