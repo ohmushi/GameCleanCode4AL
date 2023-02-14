@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface HeroPersistenceSpi {
     Either<ApplicationError, Hero> save(Hero hero);
 
-    List<Hero> findAll();
+    Either<ApplicationError, List<Hero>> findAll();
 
-    Optional<Hero> findById(UUID id);
+    Either<ApplicationError, Optional<Hero>> findById(UUID id);
 }

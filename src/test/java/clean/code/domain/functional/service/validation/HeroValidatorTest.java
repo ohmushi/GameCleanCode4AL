@@ -14,7 +14,7 @@ import static org.assertj.vavr.api.VavrAssertions.assertThat;
 class HeroValidatorTest {
     @InjectMocks private HeroValidator validator;
 
-    private Hero hero = Hero.builder().name("Test hero").power(10).armor(10).hp(10).speciality("TANK").rarity("COMMON").build();
+    private final Hero hero = Hero.builder().name("Test hero").power(10).armor(10).hp(10).speciality("TANK").rarity("COMMON").build();
 
     @Test
     void should_validate() {
