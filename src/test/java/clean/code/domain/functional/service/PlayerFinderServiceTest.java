@@ -36,7 +36,7 @@ class PlayerFinderServiceTest {
         val actual = service.findById(given);
 
         assertThat(actual).contains(expected);
-        verify(spi, times(1)).findById(given);
+        verify(spi).findById(given);
         verifyNoMoreInteractions(spi);
     }
 
@@ -49,7 +49,7 @@ class PlayerFinderServiceTest {
         val actual = service.findById(given);
 
         assertThat(actual).isEmpty();
-        verify(spi, times(1)).findById(given);
+        verify(spi).findById(given);
         verifyNoMoreInteractions(spi);
     }
 
@@ -68,7 +68,7 @@ class PlayerFinderServiceTest {
         val actual = service.findAll(given);
 
         assertThat(actual).containsRightSame(expected);
-        verify(spi, times(1)).findAll(given);
+        verify(spi).findAll(given);
         verifyNoMoreInteractions(spi);
     }
 
@@ -82,7 +82,7 @@ class PlayerFinderServiceTest {
         val actual = service.findAll(given);
 
         assertThat(actual).containsLeftSame(expected);
-        verify(spi, times(1)).findAll(given);
+        verify(spi).findAll(given);
         verifyNoMoreInteractions(spi);
     }
 

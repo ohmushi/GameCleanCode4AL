@@ -10,7 +10,7 @@ import java.util.UUID;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id")
 public class Player {
     @Builder.Default
     UUID id = UUID.randomUUID();
