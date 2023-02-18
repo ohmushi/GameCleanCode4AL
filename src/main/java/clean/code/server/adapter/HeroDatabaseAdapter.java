@@ -29,12 +29,18 @@ public class HeroDatabaseAdapter implements HeroPersistenceSpi {
     }
 
     @Override
-    public List<Hero> findAll() {
-        return repository.findAll().stream().map(HeroEntityMapper::toDomain).toList();
+    public Either<ApplicationError, List<Hero>> findAll() {
+        return API.Try(repository::findAll)
+                .toEither()
+                .mapLeft(throwable -> new ApplicationError("Unable to find all heroes", null, throwable))
+                .map(heroes -> heroes.stream().map(HeroEntityMapper::toDomain).toList());
     }
 
     @Override
-    public Optional<Hero> findById(UUID id) {
-        return repository.findById(id).map(HeroEntityMapper::toDomain);
+    public Either<ApplicationError, Optional<Hero>> findById(UUID id) {
+        return API.Try(() -> repository.findById(id))
+                .toEither()
+                .mapLeft(throwable -> new ApplicationError("Unable to find hero by id", id, throwable))
+                .map(optional -> optional.map(HeroEntityMapper::toDomain));
     }
 }

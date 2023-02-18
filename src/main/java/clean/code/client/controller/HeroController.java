@@ -5,6 +5,7 @@ import clean.code.client.mapper.HeroDtoMapper;
 import clean.code.domain.ports.client.HeroCreatorApi;
 import clean.code.domain.ports.client.HeroFinderApi;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,13 +32,13 @@ public class HeroController {
     public ResponseEntity<Object> findAllHeroes() {
         return heroFinderApi.findAll()
                 .map(heroes -> heroes.stream().map(HeroDtoMapper::toDto).toList())
-                .fold(ResponseEntity.badRequest()::body, ResponseEntity::ok);
+                .fold(ResponseEntity.internalServerError()::body, ResponseEntity::ok);
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Object> findOneHero(@PathVariable("id") UUID id) {
         return heroFinderApi.findById(id)
                 .map(HeroDtoMapper::toDto)
-                .fold(ResponseEntity.badRequest()::body, ResponseEntity::ok);
+                .fold(ResponseEntity.status(HttpStatus.NOT_FOUND)::body, ResponseEntity::ok);
     }
 }

@@ -8,6 +8,7 @@ import java.util.UUID;
 @With
 @Value
 @Builder
+@ToString
 @EqualsAndHashCode
 public class Hero {
     @Builder.Default

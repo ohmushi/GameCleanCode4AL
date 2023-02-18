@@ -32,6 +32,7 @@ class HeroCreatorServiceTest {
 
         val actual = service.create(given);
         assertThat(actual).containsRightSame(given);
+
         verify(spi).save(given);
         verifyNoMoreInteractions(spi);
     }
@@ -40,7 +41,7 @@ class HeroCreatorServiceTest {
     void should_not_create_if_invalid() {
         val given = Hero.builder().name("Test hero").power(10).armor(10).hp(10).speciality("TANK").rarity("COMMON").build();
 
-        val error = new ApplicationError("The name should not be empty", null, null);
+        val error = new ApplicationError(null, null, null);
         when(validator.validate(given)).thenReturn(Validation.invalid(error));
 
         val actual = service.create(given);

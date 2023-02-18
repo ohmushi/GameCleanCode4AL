@@ -16,17 +16,17 @@ public class HeroFinderService implements HeroFinderApi {
     private final HeroPersistenceSpi spi;
     @Override
     public Either<ApplicationError, List<Hero>> findAll() {
-        return Either.right(spi.findAll());
+        return spi.findAll();
     }
 
     @Override
     public Either<ApplicationError, Hero> findById(UUID id) {
-        var hero = spi.findById(id);
-
-        if (hero.isEmpty()) {
-            return Either.left(new ApplicationError("Hero not found", id, null));
-        } else {
-            return Either.right(hero.get());
-        }
+        return spi.findById(id).flatMap(hero -> {
+            if (hero.isEmpty()) {
+                return Either.left(new ApplicationError("Hero not found", id, null));
+            } else {
+                return Either.right(hero.get());
+            }
+        });
     }
 }
