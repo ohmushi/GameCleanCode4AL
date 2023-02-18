@@ -50,18 +50,17 @@ class PackOpenerApiServiceTest {
         val h = Hero.builder().rarity("COMMON").build();
         val heroes = new ArrayList<Hero>();
         for(int i = 0; i < nbCards; i++) heroes.add(h);
-        val expectedPack = Pack.builder().heroes(heroes).build();
+        val expectedPack = new Pack(heroes);
         val expectedHeroesInPlayer = new ArrayList<>(givenPlayer.getDeck().getHeroes());
         expectedHeroesInPlayer.addAll(expectedPack.getHeroes());
 
         when(playerSpi.findById(givenPlayer.getId())).thenReturn(Option.of(givenPlayer));
-        when(heroRandomPicker.pick(anyString())).thenReturn(Either.right(h));
+        when(heroRandomPicker.pick(any(OpenPackConfiguration.class))).thenReturn(Either.right(h));
 
         val actual = service.open(givenPlayer.getId(), PackType.valueOf(type));
 
         assertThat(actual).containsOnRight(expectedPack);
 
-        verify(playerSpi).findById(givenPlayer.getId());
         verify(playerSpi).save(playerCaptor.capture());
 
         val saved = playerCaptor.getValue();

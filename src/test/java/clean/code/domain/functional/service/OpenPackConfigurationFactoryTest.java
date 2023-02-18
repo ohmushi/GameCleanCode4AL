@@ -13,6 +13,7 @@ class OpenPackConfigurationFactoryTest {
         var conf = OpenPackConfigurationFactory.forType(type);
         Assertions.assertThat(conf.nbCards()).isPositive();
         Assertions.assertThat(conf.requiredNbTokens()).isNotNegative();
+        Assertions.assertThat(conf.legendaryProbability() + conf.rareProbability() + conf.commonProbability()).isEqualTo(100);
     }
 
 }

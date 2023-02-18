@@ -11,16 +11,14 @@ import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.IntStream;
 
 @Slf4j
 @RequiredArgsConstructor
 public class PackOpenerService implements PackOpenerApi {
 
-    private PlayerPersistenceSpi playerSpi;
-    private HeroRandomPicker heroRandomPicker;
+    private final PlayerPersistenceSpi playerSpi;
+    private final HeroRandomPicker heroRandomPicker;
 
     @Override
     public Either<ApplicationError, Pack> open(UUID playerId, PackType type) {
@@ -28,13 +26,14 @@ public class PackOpenerService implements PackOpenerApi {
         final var configuration = OpenPackConfigurationFactory.forType(type);
 
         final var heroes = Stream.range(0,configuration.nbCards())
-                .map(i -> heroRandomPicker.pick("COMMON").get())
+                .map(i -> heroRandomPicker.pick(configuration).get())
                 .asJava();
-        final var pack = Pack.builder().heroes(heroes).build();
+        final var pack = new Pack(heroes);
 
         playerSpi.save(player
                 .withTokens(player.getTokens() - configuration.requiredNbTokens())
-                .withDeck(player.getDeck().addHeroes(Array.ofAll(pack.getHeroes()))));
+                .withDeck(player.getDeck().addHeroes(Array.ofAll(pack.getHeroes())))
+        );
 
         return Either.right(pack);
     }

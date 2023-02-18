@@ -8,8 +8,7 @@ import java.util.UUID;
 @With
 @Value
 @Builder
-@ToString
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode
 public class Hero {
     @Builder.Default
     UUID id = UUID.randomUUID();

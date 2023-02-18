@@ -39,8 +39,7 @@ class PlayerRegisterServiceTest {
         val actual = service.register(given);
         assertThat(actual).containsRightSame(expected);
 
-        verify(spi).save(playerCaptor.capture());
-        Assertions.assertThat(playerCaptor.getValue()).isEqualTo(expected);
+        verify(spi).save(expected);
         verifyNoMoreInteractions(spi);
     }
 

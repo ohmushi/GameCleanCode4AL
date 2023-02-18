@@ -11,7 +11,7 @@ public class HeroRandomPicker {
 
     HeroPersistenceSpi spi;
 
-    Either<ApplicationError, Hero> pick(String rarity) {
+    Either<ApplicationError, Hero> pick(OpenPackConfiguration configuration) {
         return null;
     }
 }
