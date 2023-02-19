@@ -33,7 +33,7 @@ public class PackOpenerService implements PackOpenerApi {
         return playerSpi.findById(playerId)
                 .toEither(new ApplicationError("Player not found", playerId, null))
                 .flatMap(foundPlayer -> checkPlayerHasEnoughTokens(foundPlayer, configuration.requiredNbTokens()).toEither())
-                .flatMap(p -> openPackAndAddHeroesToPlayer(p, type, configuration.nbCards()))
+                .flatMap(p -> generateRandomPackAndAddHeroesInPlayersDeck(p, type, configuration.nbCards()))
                 .map(packAndPlayer -> Tuple.of(packAndPlayer._1, removePlayerTokens(packAndPlayer._2, configuration.requiredNbTokens())))
                 .flatMap(this::savePlayerAndGetPack);
     }
@@ -44,7 +44,7 @@ public class PackOpenerService implements PackOpenerApi {
                 : Validation.valid(player);
     }
 
-    private Either<ApplicationError,Tuple2<Pack, Player>> openPackAndAddHeroesToPlayer(Player player, PackType type, Integer nbCards) {
+    private Either<ApplicationError,Tuple2<Pack, Player>> generateRandomPackAndAddHeroesInPlayersDeck(Player player, PackType type, Integer nbCards) {
         return getRandomPackOfType(type, nbCards)
                 .map(pack -> Tuple.of(pack, player.addHeroesInDeck(pack.getHeroes())));
     }
