@@ -119,4 +119,25 @@ class PackOpenerApiServiceTest {
         verifyNoMoreInteractions(playerSpi);
     }
 
+    @Test
+    void should_return_error_when_hero_random_picker_fail() {
+        val givenPlayer = Player.builder()
+                .nickname("player")
+                .tokens(1)
+                .deck(Deck.empty())
+                .build();
+        val expectedError = new ApplicationError("Error while picking random hero", null, null);
+
+        when(playerSpi.findById(givenPlayer.getId())).thenReturn(Option.of(givenPlayer));
+        when(heroRandomPicker.pick(PackType.SILVER)).thenReturn(Either.left(expectedError));
+
+        val actual = service.open(givenPlayer.getId(), PackType.SILVER);
+
+        assertThat(actual).containsLeftSame(expectedError);
+
+        verify(playerSpi).findById(givenPlayer.getId());
+        verify(heroRandomPicker).pick(PackType.SILVER);
+        verifyNoMoreInteractions(playerSpi, heroRandomPicker);
+    }
+
 }
