@@ -43,4 +43,12 @@ public class HeroDatabaseAdapter implements HeroPersistenceSpi {
                 .mapLeft(throwable -> new ApplicationError("Unable to find hero by id", id, throwable))
                 .map(optional -> optional.map(HeroEntityMapper::toDomain));
     }
+
+    @Override
+    public Either<ApplicationError, List<Hero>> findByRarity(String rarity) {
+        return API.Try(() -> repository.findByRarity(rarity))
+                .toEither()
+                .mapLeft(throwable -> new ApplicationError("Unable to find all heroes", null, throwable))
+                .map(heroes -> heroes.stream().map(HeroEntityMapper::toDomain).toList());
+    }
 }

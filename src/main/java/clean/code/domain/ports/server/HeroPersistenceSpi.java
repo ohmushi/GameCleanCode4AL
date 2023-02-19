@@ -14,4 +14,6 @@ public interface HeroPersistenceSpi {
     Either<ApplicationError, List<Hero>> findAll();
 
     Either<ApplicationError, Optional<Hero>> findById(UUID id);
+
+    Either<ApplicationError, List<Hero>> findByRarity(String expectedRarity);
 }

@@ -4,6 +4,7 @@ import io.vavr.collection.Seq;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,7 +19,9 @@ public class Deck {
         return new Deck(Collections.emptyList());
     }
 
-    public Deck addHeroes(Seq<Hero> heroes) {
-        return this.withHeroes(heroes.appendAll(this.getHeroes()).toJavaList());
+    public Deck addHeroes(List<Hero> heroes) {
+        final var mutable = new ArrayList<>(this.heroes);
+        mutable.addAll(heroes);
+        return this.withHeroes(mutable);
     }
 }

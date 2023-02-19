@@ -35,6 +35,4 @@ public class VavrTest {
         );
     }
 
-    // TODO tests Functional Interfaces, Collections, Validation, Lazy, Pattern Matching
-
 }

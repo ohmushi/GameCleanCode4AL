@@ -1,5 +1,6 @@
 package clean.code.domain.functional.service;
 
+import clean.code.domain.ApplicationError;
 import clean.code.domain.functional.model.*;
 import clean.code.domain.ports.server.PlayerPersistenceSpi;
 import io.vavr.control.Either;
@@ -10,15 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
+import java.util.UUID;
 
 import static org.assertj.vavr.api.VavrAssertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -53,14 +51,21 @@ class PackOpenerApiServiceTest {
         val expectedPack = new Pack(heroes);
         val expectedHeroesInPlayer = new ArrayList<>(givenPlayer.getDeck().getHeroes());
         expectedHeroesInPlayer.addAll(expectedPack.getHeroes());
+        val expectedPlayer = Player.builder()
+                .id(givenPlayer.getId())
+                .tokens(givenPlayer.getTokens() - nbTokens)
+                .deck(new Deck(expectedHeroesInPlayer))
+                .build();
 
         when(playerSpi.findById(givenPlayer.getId())).thenReturn(Option.of(givenPlayer));
-        when(heroRandomPicker.pick(any(OpenPackConfiguration.class))).thenReturn(Either.right(h));
+        when(heroRandomPicker.pick(any(PackType.class))).thenReturn(Either.right(h));
+        when(playerSpi.save(expectedPlayer)).thenReturn(Either.right(expectedPlayer));
 
         val actual = service.open(givenPlayer.getId(), PackType.valueOf(type));
 
         assertThat(actual).containsOnRight(expectedPack);
 
+        verify(playerSpi).findById(givenPlayer.getId());
         verify(playerSpi).save(playerCaptor.capture());
 
         val saved = playerCaptor.getValue();
@@ -68,11 +73,50 @@ class PackOpenerApiServiceTest {
         Assertions.assertThat(saved.getTokens()).isEqualTo(givenPlayer.getTokens() - nbTokens);
         Assertions.assertThat(saved.getDeck().getHeroes()).containsExactlyInAnyOrderElementsOf(expectedHeroesInPlayer);
 
-        verifyNoMoreInteractions(playerSpi);
+
+        verify(heroRandomPicker, times(nbCards)).pick(any(PackType.class));
+        verifyNoMoreInteractions(playerSpi, heroRandomPicker);
     }
 
-    //TODO player does not have enough tokens for silver and diamond
+    @ParameterizedTest
+    @CsvSource(value = {"0,1", "1,2", "0,3"})
+    void should_not_open_pack_if_player_does_not_have_enough_tokens(Integer playerTokens, Integer requiredNbTokens) {
+        try(MockedStatic<OpenPackConfigurationFactory> factory = mockStatic(OpenPackConfigurationFactory.class)) {
 
-    // TODO if playerSpi does not find player
+            factory.when(() -> OpenPackConfigurationFactory.forType(any()))
+                    .thenReturn(new OpenPackConfiguration(0, requiredNbTokens, 0, 0, 0));
+            val givenPlayer = Player.builder()
+                    .tokens(playerTokens) // not enough tokens
+                    .build();
+            val expectedError = new ApplicationError(
+                    "Player does not have enough tokens for this pack", givenPlayer, null);
+
+            when(playerSpi.findById(givenPlayer.getId())).thenReturn(Option.of(givenPlayer));
+
+            val actual = service.open(givenPlayer.getId(), PackType.SILVER);
+
+            assertThat(actual).containsOnLeft(expectedError);
+
+            verify(playerSpi).findById(givenPlayer.getId());
+            verifyNoInteractions(heroRandomPicker);
+            verifyNoMoreInteractions(playerSpi);
+        }
+
+    }
+
+    @Test
+    void should_return_error_when_player_not_found() {
+        val givenId = UUID.randomUUID();
+        val expectedError = new ApplicationError("Player not found", givenId, null);
+
+        when(playerSpi.findById(givenId)).thenReturn(Option.none());
+
+        val actual = service.open(givenId, PackType.SILVER);
+
+        assertThat(actual).containsOnLeft(expectedError);
+        verify(playerSpi).findById(givenId);
+        verifyNoInteractions(heroRandomPicker);
+        verifyNoMoreInteractions(playerSpi);
+    }
 
 }
