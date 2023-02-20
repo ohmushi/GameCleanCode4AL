@@ -25,8 +25,7 @@ public interface PlayerDtoMapper {
     static PlayerSearchResponse toSearchResponse(Player player) {
         return new PlayerSearchResponse(
             player.getId().toString(),
-            player.getNickname(),
-                null
+            player.getNickname()
         );
     }
 }

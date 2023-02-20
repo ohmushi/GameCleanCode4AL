@@ -1,11 +1,13 @@
 package clean.code.client.controller;
 
 import clean.code.client.dto.PlayerRegistrationRequest;
+import clean.code.client.mapper.PackDtoMapper;
 import clean.code.client.mapper.PlayerDtoMapper;
+import clean.code.domain.functional.model.PackType;
+import clean.code.domain.ports.client.PackOpenerApi;
 import clean.code.domain.ports.client.PlayerFinderApi;
 import clean.code.domain.ports.client.PlayerRegisterApi;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,15 +19,16 @@ import java.util.UUID;
 public class PlayerController {
 
     private final PlayerRegisterApi playerRegisterApi;
-
     private final PlayerFinderApi playerFinderApi;
+    private final PackOpenerApi packOpenerApi;
+
     @PostMapping
     public ResponseEntity<Object> registerPlayer(@RequestBody PlayerRegistrationRequest request) {
 
         return playerRegisterApi
                 .register(PlayerDtoMapper.toDomain(request))
                 .map(PlayerDtoMapper::toDefaultResponse)
-                .fold(ResponseEntity.badRequest()::body, ResponseEntity::ok);
+                .fold(ResponseEntity.internalServerError()::body, ResponseEntity::ok);
     }
 
     @GetMapping
@@ -39,9 +42,16 @@ public class PlayerController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Object> findOneHero(@PathVariable("id") UUID id) {
-        return playerFinderApi.findById(id)
+    public ResponseEntity<Object> findOnePlayerById(@PathVariable String id) {
+        return playerFinderApi.findById(UUID.fromString(id))
                 .map(PlayerDtoMapper::toDefaultResponse)
                 .fold(()->ResponseEntity.notFound().build(), ResponseEntity::ok);
+    }
+
+    @GetMapping("/{id}/pack/{type}")
+    public ResponseEntity<Object> openPack(@PathVariable("id") String id, @PathVariable("type") String type) {
+        return packOpenerApi.open(UUID.fromString(id), PackType.valueOf(type.toUpperCase()))
+                .map(PackDtoMapper::toDto)
+                .fold(ResponseEntity.internalServerError()::body, ResponseEntity::ok);
     }
 }

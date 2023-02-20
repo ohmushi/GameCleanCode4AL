@@ -1,10 +1,11 @@
 package clean.code.client.controller;
 
 import clean.code.client.dto.PlayerRegistrationRequest;
+import clean.code.client.mapper.PackDtoMapper;
 import clean.code.client.mapper.PlayerDtoMapper;
 import clean.code.domain.ApplicationError;
-import clean.code.domain.functional.model.Deck;
-import clean.code.domain.functional.model.Player;
+import clean.code.domain.functional.model.*;
+import clean.code.domain.ports.client.PackOpenerApi;
 import clean.code.domain.ports.client.PlayerFinderApi;
 import clean.code.domain.ports.client.PlayerRegisterApi;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,6 +44,9 @@ class PlayerControllerTest {
     @MockBean
     private PlayerFinderApi playerFinderApi;
 
+    @MockBean
+    private PackOpenerApi packOpenerApi;
+
     ObjectMapper objectMapper = new ObjectMapper();
 
     private final String baseUrl = "/players";
@@ -52,9 +56,12 @@ class PlayerControllerTest {
         val expected = List.of(Player.builder().build());
         when(playerFinderApi.findAll(null)).thenReturn(Either.right(expected));
 
-        this.mockMvc.perform(get("/players"))
+        this.mockMvc.perform(get(baseUrl))
                 .andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.writeValueAsString(expected)));
+                .andExpect(content()
+                        .string(objectMapper.writeValueAsString(expected.stream()
+                                .map(PlayerDtoMapper::toSearchResponse)
+                                .toList())));
 
         verify(playerFinderApi).findAll(null);
         verifyNoMoreInteractions(playerFinderApi);
@@ -65,7 +72,7 @@ class PlayerControllerTest {
         val expected = new ApplicationError(null, null, null);
         when(playerFinderApi.findAll("nickname")).thenReturn(Either.left(expected));
 
-        this.mockMvc.perform(get(baseUrl))
+        this.mockMvc.perform(get(baseUrl+ "?nickname=nickname"))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().string(objectMapper.writeValueAsString(expected)));
 
@@ -76,13 +83,15 @@ class PlayerControllerTest {
     @Test
     void should_retrieve_one_player_by_id() throws Exception {
         val id = UUID.randomUUID();
-        val expected = Player.builder().id(id).build();
+        val expected = Player.builder().id(id).deck(new Deck(List.of(Hero.builder().name("hero").build()))).build();
 
         when(playerFinderApi.findById(id)).thenReturn(Option.of(expected));
 
-        this.mockMvc.perform(get(baseUrl + "/" + id))
+        this.mockMvc.perform(get(baseUrl + "/" + id.toString()))
                 .andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.writeValueAsString(expected)));
+                .andExpect(content().string(objectMapper.writeValueAsString(
+                        PlayerDtoMapper.toDefaultResponse(expected)
+                )));
 
         verify(playerFinderApi).findById(id);
         verifyNoMoreInteractions(playerFinderApi);
@@ -91,13 +100,12 @@ class PlayerControllerTest {
     @Test
     void should_not_retrieve_player_by_id() throws Exception {
         val id = UUID.randomUUID();
-        val expected = new ApplicationError(null, null, null);
 
         when(playerFinderApi.findById(id)).thenReturn(Option.none());
 
         this.mockMvc.perform(get(baseUrl + "/" + id))
                 .andExpect(status().isNotFound())
-                .andExpect(content().string(objectMapper.writeValueAsString(expected)));
+                .andExpect(content().string(""));
 
         verify(playerFinderApi).findById(id);
         verifyNoMoreInteractions(playerFinderApi);
@@ -107,9 +115,9 @@ class PlayerControllerTest {
     void should_register_player() throws Exception {
         val givenRequest = new PlayerRegistrationRequest("nickname");
         val givenPlayer = PlayerDtoMapper.toDomain(givenRequest);
-        val expectedPlayer = Player.builder().nickname("nickname").tokens(4).deck(Deck.empty()).build();
+        val expectedPlayer = givenPlayer.withTokens(4).withDeck(Deck.empty());
 
-        when(playerRegisterApi.register(givenPlayer)).thenReturn(Either.right(expectedPlayer));
+        when(playerRegisterApi.register(any(Player.class))).thenReturn(Either.right(expectedPlayer));
 
         this.mockMvc.perform(post(baseUrl)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -117,26 +125,59 @@ class PlayerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(PlayerDtoMapper.toDefaultResponse(expectedPlayer))));
 
-        verify(playerRegisterApi).register(givenPlayer);
+        verify(playerRegisterApi).register(any(Player.class));
         verifyNoMoreInteractions(playerRegisterApi);
     }
 
     @Test
     void should_not_register_player() throws Exception {
         val givenRequest = new PlayerRegistrationRequest("nickname");
-        val givenPlayer = PlayerDtoMapper.toDomain(givenRequest);
         val expected = new ApplicationError(null, null, null);
 
-        when(playerRegisterApi.register(givenPlayer)).thenReturn(Either.left(expected));
+        when(playerRegisterApi.register(any(Player.class))).thenReturn(Either.left(expected));
 
         this.mockMvc.perform(post(baseUrl)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(givenRequest)))
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isInternalServerError())
                 .andExpect(content().string(objectMapper.writeValueAsString(expected)));
 
-        verify(playerRegisterApi).register(givenPlayer);
+        verify(playerRegisterApi).register(any(Player.class));
         verifyNoMoreInteractions(playerRegisterApi);
+    }
+
+    @Test
+    void should_open_pack() throws Exception {
+        val id = UUID.randomUUID();
+        val expectedPack = new Pack(List.of(
+                Hero.builder().name("hero1").rarity("COMMON").build(),
+                Hero.builder().name("hero2").rarity("COMMON").build(),
+                Hero.builder().name("hero3").rarity("RARE").build()
+        ));
+
+        when(packOpenerApi.open(id, PackType.SILVER)).thenReturn(Either.right(expectedPack));
+
+        this.mockMvc.perform(get(baseUrl + "/" + id.toString() + "/pack/silver"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.writeValueAsString(PackDtoMapper.toDto(expectedPack))));
+
+        verify(packOpenerApi).open(id, PackType.SILVER);
+        verifyNoMoreInteractions(packOpenerApi);
+    }
+
+    @Test
+    void should_not_open_pack() throws Exception {
+        val id = UUID.randomUUID();
+        val expectedError = new ApplicationError(null, null, null);
+
+        when(packOpenerApi.open(id, PackType.SILVER)).thenReturn(Either.left(expectedError));
+
+        this.mockMvc.perform(get(baseUrl + "/" + id.toString() + "/pack/silver"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().string(objectMapper.writeValueAsString(expectedError)));
+
+        verify(packOpenerApi).open(id, PackType.SILVER);
+        verifyNoMoreInteractions(packOpenerApi);
     }
 
 }

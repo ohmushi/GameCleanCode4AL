@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.Random;
 
 @RequiredArgsConstructor
-final class RarityRandomPicker {
+public final class RarityRandomPicker {
 
     private final Random randomPercentageGenerator;
 
