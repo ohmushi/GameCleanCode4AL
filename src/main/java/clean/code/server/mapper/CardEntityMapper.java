@@ -6,9 +6,9 @@ import clean.code.server.entity.HeroEntity;
 
 import java.util.UUID;
 
-public interface HeroEntityMapper {
+public interface CardEntityMapper {
 
-    static Hero toDomain(HeroEntity entity) {
+    static Hero toDomain(CardEntity entity) {
         return Hero.builder()
                 .id(UUID.fromString(entity.getId()))
                 .name(entity.getName())
@@ -22,8 +22,8 @@ public interface HeroEntityMapper {
                 .build();
     }
 
-    static HeroEntity toHeroEntity(Hero domain) {
-        return HeroEntity.builder()
+    static CardEntity toCardEntity(Hero domain) {
+        return CardEntity.builder()
                 .id(domain.getId().toString())
                 .name(domain.getName())
                 .hp(domain.getHp())

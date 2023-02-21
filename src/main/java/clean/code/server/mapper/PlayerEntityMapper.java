@@ -1,5 +1,6 @@
 package clean.code.server.mapper;
 
+import clean.code.domain.functional.model.Deck;
 import clean.code.domain.functional.model.Hero;
 import clean.code.domain.functional.model.Player;
 import clean.code.server.entity.HeroEntity;
@@ -14,7 +15,7 @@ public interface PlayerEntityMapper {
                 .id(UUID.fromString(entity.getId()))
                 .nickname(entity.getNickname())
                 .tokens(entity.getTokens())
-                //TODO Deck
+                .deck(new Deck(entity.getCards().stream().map(CardEntityMapper::toDomain).toList()))
                 .build();
     }
 
@@ -23,7 +24,7 @@ public interface PlayerEntityMapper {
                 .id(domain.getId().toString())
                 .nickname(domain.getNickname())
                 .tokens(domain.getTokens())
-                //TODO Deck
+                .cards(domain.getDeck().getHeroes().stream().map(CardEntityMapper::toCardEntity).toList())
                 .build();
     }
 }

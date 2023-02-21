@@ -5,6 +5,8 @@ import clean.code.domain.functional.service.validation.HeroValidator;
 import clean.code.domain.ports.client.*;
 import clean.code.domain.ports.server.HeroPersistenceSpi;
 import clean.code.domain.ports.server.PlayerPersistenceSpi;
+import clean.code.server.adapter.PlayerMongoDatabaseAdapter;
+import clean.code.server.repository.PlayerRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,6 +28,11 @@ public class DomainConfiguration {
     @Bean
     public HeroFinderApi heroFinderService(HeroPersistenceSpi spi) {
         return new HeroFinderService(spi);
+    }
+
+    @Bean
+    public PlayerPersistenceSpi playerPersistenceSpi(PlayerRepository repository) {
+        return new PlayerMongoDatabaseAdapter(repository);
     }
 
     @Bean

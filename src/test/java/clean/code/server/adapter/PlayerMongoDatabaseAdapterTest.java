@@ -1,6 +1,8 @@
 package clean.code.server.adapter;
 
 import clean.code.domain.ApplicationError;
+import clean.code.domain.functional.model.Deck;
+import clean.code.domain.functional.model.Hero;
 import clean.code.domain.functional.model.Player;
 import clean.code.server.entity.PlayerEntity;
 import clean.code.server.mapper.PlayerEntityMapper;
@@ -31,7 +33,11 @@ class PlayerMongoDatabaseAdapterTest {
     @Mock private PlayerRepository repository;
     @InjectMocks private PlayerMongoDatabaseAdapter adapter;
 
-    private final Player givenPlayer = Player.builder().nickname("nickname").tokens(3).build();
+    private final Player givenPlayer = Player.builder()
+            .nickname("nickname")
+            .deck(new Deck(List.of(Hero.builder().name("hero").build())))
+            .tokens(3)
+            .build();
 
     @Test
     void should_save() {
@@ -62,25 +68,25 @@ class PlayerMongoDatabaseAdapterTest {
     void should_find_by_id() {
         val id = UUID.randomUUID();
         val entity = PlayerEntityMapper.toEntity(givenPlayer);
-        when(repository.findById(id)).thenReturn(Optional.of(entity));
+        when(repository.findById(id.toString())).thenReturn(Optional.of(entity));
 
         val actual = adapter.findById(id);
 
         VavrAssertions.assertThat(actual).contains(givenPlayer);
 
-        verify(repository).findById(id);
+        verify(repository).findById(id.toString());
         verifyNoMoreInteractions(repository);
     }
 
     @Test
     void should_not_find_by_id() {
         val id = UUID.randomUUID();
-        when(repository.findById(id)).thenReturn(Optional.empty());
+        when(repository.findById(id.toString())).thenReturn(Optional.empty());
 
         val actual = adapter.findById(id);
         VavrAssertions.assertThat(actual).isEmpty();
 
-        verify(repository).findById(id);
+        verify(repository).findById(id.toString());
         verifyNoMoreInteractions(repository);
     }
 

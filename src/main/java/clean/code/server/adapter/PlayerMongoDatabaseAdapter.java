@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
-@Service
 @RequiredArgsConstructor
 public class PlayerMongoDatabaseAdapter implements PlayerPersistenceSpi {
 
@@ -32,7 +31,7 @@ public class PlayerMongoDatabaseAdapter implements PlayerPersistenceSpi {
 
     @Override
     public Option<Player> findById(UUID playerId) {
-        return Option.ofOptional(repository.findById(playerId)).map(PlayerEntityMapper::toDomain);
+        return Option.ofOptional(repository.findById(playerId.toString())).map(PlayerEntityMapper::toDomain);
     }
 
     @Override
