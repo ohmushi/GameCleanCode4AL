@@ -8,7 +8,6 @@ import java.util.UUID;
 @With
 @Value
 @Builder
-@ToString
 @EqualsAndHashCode
 public class Hero {
     @Builder.Default
@@ -18,9 +17,6 @@ public class Hero {
 
     int hp;
 
-    @Builder.Default
-    int xp = 0;
-
     int power;
 
     int armor;
@@ -28,7 +24,4 @@ public class Hero {
     String speciality;
 
     String rarity;
-
-    @Builder.Default
-    int level = 1;
 }

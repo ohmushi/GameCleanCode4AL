@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories(basePackages = "clean.code.server.repository")
 public class Application {
     public static void main(String[] args) {
-        System.setProperty("server.servlet.context-path", "/api/v1");
         SpringApplication.run(Application.class, args);
     }
 }

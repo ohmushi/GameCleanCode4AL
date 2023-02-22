@@ -22,7 +22,7 @@ public class HeroDatabaseAdapter implements HeroPersistenceSpi {
 
     @Override
     public Either<ApplicationError, Hero> save(Hero hero) {
-        return API.Try(() -> repository.save(HeroEntityMapper.toEntity(hero)))
+        return API.Try(() -> repository.save(HeroEntityMapper.toHeroEntity(hero)))
                 .toEither()
                 .mapLeft(throwable -> new ApplicationError("Unable to save hero", hero, throwable))
                 .map(HeroEntityMapper::toDomain);
@@ -42,5 +42,13 @@ public class HeroDatabaseAdapter implements HeroPersistenceSpi {
                 .toEither()
                 .mapLeft(throwable -> new ApplicationError("Unable to find hero by id", id, throwable))
                 .map(optional -> optional.map(HeroEntityMapper::toDomain));
+    }
+
+    @Override
+    public Either<ApplicationError, List<Hero>> findByRarity(String rarity) {
+        return API.Try(() -> repository.findByRarity(rarity))
+                .toEither()
+                .mapLeft(e -> new ApplicationError("Unable to find heroes by rarity", rarity, e))
+                .map(heroes -> heroes.stream().map(HeroEntityMapper::toDomain).toList());
     }
 }

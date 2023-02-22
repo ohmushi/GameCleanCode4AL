@@ -3,24 +3,20 @@ package clean.code.server.entity;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
+
+@Document(collection = "players")
 @Builder
 @Getter
-@Document(collection = "heroes")
-public class HeroEntity {
+public class PlayerEntity {
     @Id
     private String id;
 
-    private String name;
-
-    private int hp;
-
-    private int power;
-
-    private int armor;
-
-    private String speciality;
-
-    private String rarity;
+    private String nickname;
+    private Integer tokens;
+    private List<CardEntity> cards;
 }

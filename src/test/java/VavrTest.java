@@ -2,7 +2,8 @@ import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Examples inspired from
@@ -33,7 +34,5 @@ public class VavrTest {
                 failure.getOrElse(contextualizedDefaultValue)
         );
     }
-
-    // TODO tests Functional Interfaces, Collections, Validation, Lazy, Pattern Matching
 
 }

@@ -11,12 +11,10 @@ public interface HeroDtoMapper {
             hero.getId(),
             hero.getName(),
             hero.getHp(),
-            hero.getXp(),
             hero.getPower(),
             hero.getArmor(),
             hero.getSpeciality(),
-            hero.getRarity(),
-            hero.getLevel()
+            hero.getRarity()
         );
     }
 

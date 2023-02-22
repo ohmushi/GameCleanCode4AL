@@ -57,3 +57,6 @@ build/
 
 ### Deployment
 kubeconfig.yaml
+
+### secrets
+src/main/java/clean/code/bootstrap/ressources/application.properties

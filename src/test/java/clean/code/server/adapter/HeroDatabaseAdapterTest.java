@@ -30,7 +30,7 @@ class HeroDatabaseAdapterTest {
     @Test
     void should_save() {
         val given = Hero.builder().build();
-        val entity = HeroEntityMapper.toEntity(given);
+        val entity = HeroEntityMapper.toHeroEntity(given);
         when(repository.save(any(HeroEntity.class))).thenReturn(entity);
 
         val actual = adapter.save(given);
@@ -71,7 +71,7 @@ class HeroDatabaseAdapterTest {
     void should_find_by_id() {
         val id = UUID.randomUUID();
         val given = Hero.builder().id(id).build();
-        val entity = HeroEntityMapper.toEntity(given);
+        val entity = HeroEntityMapper.toHeroEntity(given);
         when(repository.findById(id)).thenReturn(Optional.of(entity));
 
         val actual = adapter.findById(id);
@@ -101,7 +101,7 @@ class HeroDatabaseAdapterTest {
     @Test
     void should_find_all() {
         val given = Hero.builder().build();
-        val entity = HeroEntityMapper.toEntity(given);
+        val entity = HeroEntityMapper.toHeroEntity(given);
         when(repository.findAll()).thenReturn(List.of(entity));
 
         val actual = adapter.findAll();
@@ -123,6 +123,37 @@ class HeroDatabaseAdapterTest {
         VavrAssertions.assertThat(actual).containsLeftInstanceOf(ApplicationError.class);
 
         verify(repository).findAll();
+        verifyNoMoreInteractions(repository);
+    }
+
+    @Test
+    void should_find_by_rarity() {
+        val given = Hero.builder().build();
+        val entity = HeroEntityMapper.toHeroEntity(given);
+        val rarity = "COMMON";
+
+        when(repository.findByRarity(rarity)).thenReturn(List.of(entity));
+
+        val actual = adapter.findByRarity(rarity);
+
+        VavrAssertions.assertThat(actual).containsOnRight(List.of(given));
+
+        verify(repository).findByRarity(rarity);
+        verifyNoMoreInteractions(repository);
+    }
+
+    @Test
+    void should_return_error_if_repository_crash_when_find_by_rarity() {
+        val rarity = "COMMON";
+        val exeption = new RuntimeException();
+        val expectedError = new ApplicationError("Unable to find heroes by rarity", rarity, exeption);
+        doThrow(exeption).when(repository).findByRarity(rarity);
+
+        val actual = adapter.findByRarity(rarity);
+
+        VavrAssertions.assertThat(actual).containsOnLeft(expectedError);
+
+        verify(repository).findByRarity(rarity);
         verifyNoMoreInteractions(repository);
     }
 }
