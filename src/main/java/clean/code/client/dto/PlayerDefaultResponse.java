@@ -6,6 +6,6 @@ public record PlayerDefaultResponse(
         String id
         , String nickname
         , Integer tokens
-        , List<HeroDto> deck
+        , List<CardDto> deck
         ) {
 }

@@ -1,8 +1,6 @@
 package clean.code.domain.functional.model;
 
-import io.vavr.collection.Seq;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,15 +11,15 @@ import java.util.List;
 @Value
 public class Deck {
 
-    List<Hero> heroes;
+    List<Card> cards;
 
     public static Deck empty() {
         return new Deck(Collections.emptyList());
     }
 
-    public Deck addHeroes(List<Hero> heroes) {
-        final var mutable = new ArrayList<>(this.heroes);
-        mutable.addAll(heroes);
-        return this.withHeroes(mutable);
+    public Deck addCards(List<Card> cards) {
+        final var mutable = new ArrayList<>(this.cards);
+        mutable.addAll(cards);
+        return this.withCards(mutable);
     }
 }

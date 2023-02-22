@@ -13,12 +13,10 @@ public interface HeroEntityMapper {
                 .id(UUID.fromString(entity.getId()))
                 .name(entity.getName())
                 .hp(entity.getHp())
-                .xp(entity.getXp())
                 .power(entity.getPower())
                 .armor(entity.getArmor())
                 .speciality(entity.getSpeciality())
                 .rarity(entity.getRarity())
-                .level(entity.getLevel())
                 .build();
     }
 
@@ -27,12 +25,10 @@ public interface HeroEntityMapper {
                 .id(domain.getId().toString())
                 .name(domain.getName())
                 .hp(domain.getHp())
-                .xp(domain.getXp())
                 .power(domain.getPower())
                 .armor(domain.getArmor())
                 .speciality(domain.getSpeciality())
                 .rarity(domain.getRarity())
-                .level(domain.getLevel())
                 .build();
     }
 }

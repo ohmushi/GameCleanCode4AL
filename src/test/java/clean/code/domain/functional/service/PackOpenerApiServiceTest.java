@@ -15,6 +15,7 @@ import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,19 +43,19 @@ class PackOpenerApiServiceTest {
     void should_open_pack(String type, Integer nbTokens, Integer nbCards) {
         val givenPlayer = Player.builder()
                 .tokens(2)
-                .deck(new Deck(List.of(Hero.builder().name("heroAlreadyInHeroDeck").build())))
+                .deck(new Deck(List.of(Card.builder().name("heroAlreadyInHeroDeck").build())))
                 .build();
 
         val h = Hero.builder().rarity("COMMON").build();
         val heroes = new ArrayList<Hero>();
         for(int i = 0; i < nbCards; i++) heroes.add(h);
         val expectedPack = new Pack(heroes);
-        val expectedHeroesInPlayer = new ArrayList<>(givenPlayer.getDeck().getHeroes());
-        expectedHeroesInPlayer.addAll(expectedPack.getHeroes());
+        val expectedCardsInPlayer = new ArrayList<>(givenPlayer.getDeck().getCards());
+        expectedCardsInPlayer.addAll(expectedPack.getHeroes().stream().map(Card::fromHero).toList());
         val expectedPlayer = Player.builder()
                 .id(givenPlayer.getId())
                 .tokens(givenPlayer.getTokens() - nbTokens)
-                .deck(new Deck(expectedHeroesInPlayer))
+                .deck(new Deck(expectedCardsInPlayer))
                 .build();
 
         when(playerSpi.findById(givenPlayer.getId())).thenReturn(Option.of(givenPlayer));
@@ -71,7 +72,9 @@ class PackOpenerApiServiceTest {
         val saved = playerCaptor.getValue();
         Assertions.assertThat(saved.getId()).isEqualTo(givenPlayer.getId());
         Assertions.assertThat(saved.getTokens()).isEqualTo(givenPlayer.getTokens() - nbTokens);
-        Assertions.assertThat(saved.getDeck().getHeroes()).containsExactlyInAnyOrderElementsOf(expectedHeroesInPlayer);
+        Assertions.assertThat(saved.getDeck().getCards())
+                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+                .containsExactlyInAnyOrderElementsOf(expectedCardsInPlayer);
 
 
         verify(heroRandomPicker, times(nbCards)).pick(any(PackType.class));

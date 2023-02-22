@@ -1,9 +1,7 @@
 package clean.code.server.mapper;
 
 import clean.code.domain.functional.model.Deck;
-import clean.code.domain.functional.model.Hero;
 import clean.code.domain.functional.model.Player;
-import clean.code.server.entity.HeroEntity;
 import clean.code.server.entity.PlayerEntity;
 
 import java.util.UUID;
@@ -24,7 +22,7 @@ public interface PlayerEntityMapper {
                 .id(domain.getId().toString())
                 .nickname(domain.getNickname())
                 .tokens(domain.getTokens())
-                .cards(domain.getDeck().getHeroes().stream().map(CardEntityMapper::toCardEntity).toList())
+                .cards(domain.getDeck().getCards().stream().map(CardEntityMapper::toCardEntity).toList())
                 .build();
     }
 }

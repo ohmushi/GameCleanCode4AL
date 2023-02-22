@@ -83,7 +83,7 @@ class PlayerControllerTest {
     @Test
     void should_retrieve_one_player_by_id() throws Exception {
         val id = UUID.randomUUID();
-        val expected = Player.builder().id(id).deck(new Deck(List.of(Hero.builder().name("hero").build()))).build();
+        val expected = Player.builder().id(id).deck(new Deck(List.of(Card.builder().name("hero").build()))).build();
 
         when(playerFinderApi.findById(id)).thenReturn(Option.of(expected));
 

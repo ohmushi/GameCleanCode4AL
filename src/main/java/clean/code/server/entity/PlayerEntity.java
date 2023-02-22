@@ -18,7 +18,5 @@ public class PlayerEntity {
 
     private String nickname;
     private Integer tokens;
-
-    @DBRef
     private List<CardEntity> cards;
 }

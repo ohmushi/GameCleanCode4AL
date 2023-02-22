@@ -18,7 +18,7 @@ public interface PlayerDtoMapper {
             player.getId().toString(),
             player.getNickname(),
             player.getTokens(),
-            player.getDeck().getHeroes().stream().map(HeroDtoMapper::toDto).toList()
+            player.getDeck().getCards().stream().map(CardDtoMapper::toDto).toList()
         );
     }
 

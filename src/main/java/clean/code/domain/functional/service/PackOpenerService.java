@@ -1,10 +1,7 @@
 package clean.code.domain.functional.service;
 
 import clean.code.domain.ApplicationError;
-import clean.code.domain.functional.model.Hero;
-import clean.code.domain.functional.model.Pack;
-import clean.code.domain.functional.model.PackType;
-import clean.code.domain.functional.model.Player;
+import clean.code.domain.functional.model.*;
 import clean.code.domain.ports.client.PackOpenerApi;
 import clean.code.domain.ports.server.PlayerPersistenceSpi;
 import io.vavr.Tuple;
@@ -46,11 +43,12 @@ public class PackOpenerService implements PackOpenerApi {
 
     private Either<ApplicationError,Tuple2<Pack, Player>> generateRandomPackAndAddHeroesInPlayersDeck(Player player, PackType type, Integer nbCards) {
         return getRandomPackOfType(type, nbCards)
-                .map(pack -> Tuple.of(pack, player.addHeroesInDeck(pack.getHeroes())));
+                .map(pack -> Tuple.of(pack, player.addCardsInDeck(pack.getHeroes().stream().map(Card::fromHero).toList())));
     }
 
     private Either<ApplicationError, Pack> getRandomPackOfType(PackType type, Integer nbCards) {
-        return getRandomHeroesByType(type, nbCards).map(heroes -> new Pack(heroes.toJavaList()));
+        return getRandomHeroesByType(type, nbCards)
+                .map(heroes -> new Pack(heroes.toJavaList()));
     }
 
     private Either<ApplicationError, List<Hero>> getRandomHeroesByType(PackType type, Integer nbCards) {

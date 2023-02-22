@@ -16,8 +16,6 @@ public class HeroEntity {
 
     private int hp;
 
-    private int xp;
-
     private int power;
 
     private int armor;
@@ -25,6 +23,4 @@ public class HeroEntity {
     private String speciality;
 
     private String rarity;
-
-    private int level;
 }

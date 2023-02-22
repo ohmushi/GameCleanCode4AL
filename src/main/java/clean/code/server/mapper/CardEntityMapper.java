@@ -1,5 +1,6 @@
 package clean.code.server.mapper;
 
+import clean.code.domain.functional.model.Card;
 import clean.code.domain.functional.model.Hero;
 import clean.code.server.entity.CardEntity;
 import clean.code.server.entity.HeroEntity;
@@ -8,8 +9,8 @@ import java.util.UUID;
 
 public interface CardEntityMapper {
 
-    static Hero toDomain(CardEntity entity) {
-        return Hero.builder()
+    static Card toDomain(CardEntity entity) {
+        return Card.builder()
                 .id(UUID.fromString(entity.getId()))
                 .name(entity.getName())
                 .hp(entity.getHp())
@@ -22,7 +23,7 @@ public interface CardEntityMapper {
                 .build();
     }
 
-    static CardEntity toCardEntity(Hero domain) {
+    static CardEntity toCardEntity(Card domain) {
         return CardEntity.builder()
                 .id(domain.getId().toString())
                 .name(domain.getName())

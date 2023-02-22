@@ -7,7 +7,6 @@ import org.springframework.data.annotation.Id;
 @Builder
 @Getter
 public class CardEntity {
-    @Id
     private String id;
 
     private String name;

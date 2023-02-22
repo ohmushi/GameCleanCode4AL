@@ -20,7 +20,7 @@ public class Player {
     int tokens;
     Deck deck;
 
-    public Player addHeroesInDeck(List<Hero> heroes) {
-        return this.withDeck(deck.addHeroes(Array.ofAll(heroes).toJavaList()));
+    public Player addCardsInDeck(List<Card> heroes) {
+        return this.withDeck(deck.addCards(Array.ofAll(heroes).toJavaList()));
     }
 }
