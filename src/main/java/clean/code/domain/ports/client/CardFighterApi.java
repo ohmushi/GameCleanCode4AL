@@ -6,6 +6,6 @@ import io.vavr.control.Either;
 
 import java.util.UUID;
 
-public interface HeroFighterApi {
+public interface CardFighterApi {
     Either<ApplicationError, FightResult> fight(UUID attackerId, UUID defenderId);
 }

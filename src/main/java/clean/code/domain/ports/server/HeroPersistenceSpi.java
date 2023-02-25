@@ -6,7 +6,6 @@ import io.vavr.control.Either;
 import io.vavr.control.Option;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface HeroPersistenceSpi {

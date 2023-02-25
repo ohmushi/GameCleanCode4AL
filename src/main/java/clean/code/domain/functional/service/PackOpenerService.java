@@ -3,6 +3,7 @@ package clean.code.domain.functional.service;
 import clean.code.domain.ApplicationError;
 import clean.code.domain.functional.model.*;
 import clean.code.domain.ports.client.PackOpenerApi;
+import clean.code.domain.ports.server.CardPersistenceSpi;
 import clean.code.domain.ports.server.PlayerPersistenceSpi;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
@@ -21,6 +22,8 @@ import java.util.UUID;
 public class PackOpenerService implements PackOpenerApi {
 
     private final PlayerPersistenceSpi playerSpi;
+
+    private final CardPersistenceSpi cardSpi;
     private final HeroRandomPicker heroRandomPicker;
 
     @Override
@@ -67,6 +70,7 @@ public class PackOpenerService implements PackOpenerApi {
 
     private Either<ApplicationError, Pack> savePlayerAndGetPack(Tuple2<Pack, Player> packAndPlayer) {
         return playerSpi.save(packAndPlayer._2)
+                .peek(player -> player.getDeck().getCards().forEach(cardSpi::save))
                 .map(p -> packAndPlayer._1);
     }
 }

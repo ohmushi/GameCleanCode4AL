@@ -8,6 +8,6 @@ import lombok.With;
 @Value
 @Builder
 public class FightResult {
-    Card adversary;
-    Boolean win;
+    Card opponent;
+    boolean won;
 }

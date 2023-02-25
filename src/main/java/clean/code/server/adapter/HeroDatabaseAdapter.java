@@ -39,7 +39,7 @@ public class HeroDatabaseAdapter implements HeroPersistenceSpi {
 
     @Override
     public Option<Hero> findById(UUID id) {
-        return Option.ofOptional(repository.findById(id)).map(HeroEntityMapper::toDomain);
+        return Option.ofOptional(repository.findById(id.toString())).map(HeroEntityMapper::toDomain);
     }
 
     @Override

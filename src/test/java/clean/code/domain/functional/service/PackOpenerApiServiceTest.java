@@ -2,6 +2,7 @@ package clean.code.domain.functional.service;
 
 import clean.code.domain.ApplicationError;
 import clean.code.domain.functional.model.*;
+import clean.code.domain.ports.server.CardPersistenceSpi;
 import clean.code.domain.ports.server.PlayerPersistenceSpi;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
@@ -29,6 +30,9 @@ class PackOpenerApiServiceTest {
 
     @Mock
     private PlayerPersistenceSpi playerSpi;
+
+    @Mock
+    private CardPersistenceSpi cardSpi;
 
     @Mock
     private HeroRandomPicker heroRandomPicker;
@@ -61,6 +65,7 @@ class PackOpenerApiServiceTest {
         when(playerSpi.findById(givenPlayer.getId())).thenReturn(Option.of(givenPlayer));
         when(heroRandomPicker.pick(any(PackType.class))).thenReturn(Either.right(h));
         when(playerSpi.save(expectedPlayer)).thenReturn(Either.right(expectedPlayer));
+        when(cardSpi.save(any(Card.class))).thenAnswer(invocation -> Either.right(invocation.getArgument(0)));
 
         val actual = service.open(givenPlayer.getId(), PackType.valueOf(type));
 

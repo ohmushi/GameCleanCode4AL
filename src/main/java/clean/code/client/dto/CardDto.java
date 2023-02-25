@@ -1,5 +1,6 @@
 package clean.code.client.dto;
 
+import java.util.List;
 import java.util.UUID;
 
 public record CardDto(
@@ -11,5 +12,6 @@ public record CardDto(
     int armor,
     String speciality,
     String rarity,
-    int level
+    int level,
+    List<FightResultDto> history
 ) { }

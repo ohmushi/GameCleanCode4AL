@@ -6,7 +6,6 @@ import clean.code.domain.ApplicationError;
 import clean.code.domain.functional.model.Hero;
 import clean.code.domain.ports.client.HeroCreatorApi;
 import clean.code.domain.ports.client.HeroFinderApi;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
@@ -17,14 +16,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -90,7 +87,6 @@ class HeroControllerTest {
     @Test
     void should_not_retrieve_hero() throws Exception {
         val id = UUID.randomUUID();
-        val expected = new ApplicationError(null, null, null);
 
         when(heroFinderApi.findById(id)).thenReturn(Option.none());
 
