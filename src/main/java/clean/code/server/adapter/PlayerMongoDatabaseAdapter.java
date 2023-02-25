@@ -1,8 +1,8 @@
 package clean.code.server.adapter;
 
-import main.java.clean.code.domain.ApplicationError;
-import main.java.clean.code.domain.functional.model.Player;
-import main.java.clean.code.domain.ports.server.PlayerPersistenceSpi;
+import clean.code.domain.ApplicationError;
+import clean.code.domain.functional.model.Player;
+import clean.code.domain.ports.server.PlayerPersistenceSpi;
 import clean.code.server.entity.PlayerEntity;
 import clean.code.server.mapper.PlayerEntityMapper;
 import clean.code.server.repository.PlayerRepository;

@@ -1,8 +1,8 @@
-package main.java.clean.code.client.rest.mapper;
+package clean.code.client.rest.mapper;
 
-import main.java.clean.code.client.rest.dto.HeroCreationDto;
-import main.java.clean.code.client.rest.dto.HeroDto;
-import main.java.clean.code.domain.functional.model.Hero;
+import clean.code.client.rest.dto.HeroCreationDto;
+import clean.code.client.rest.dto.HeroDto;
+import clean.code.domain.functional.model.Hero;
 
 public interface HeroDtoMapper {
 

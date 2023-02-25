@@ -1,13 +1,13 @@
-package main.java.clean.code.domain.functional.service;
+package clean.code.domain.functional.service;
 
 import io.vavr.control.Either;
 import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import main.java.clean.code.domain.ApplicationError;
-import main.java.clean.code.domain.functional.model.Player;
-import main.java.clean.code.domain.ports.client.PlayerFinderApi;
-import main.java.clean.code.domain.ports.server.PlayerPersistenceSpi;
+import clean.code.domain.ApplicationError;
+import clean.code.domain.functional.model.Player;
+import clean.code.domain.ports.client.PlayerFinderApi;
+import clean.code.domain.ports.server.PlayerPersistenceSpi;
 
 import java.util.List;
 import java.util.UUID;

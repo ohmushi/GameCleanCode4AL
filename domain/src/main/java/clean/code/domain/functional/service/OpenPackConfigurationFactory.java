@@ -1,6 +1,6 @@
-package main.java.clean.code.domain.functional.service;
+package clean.code.domain.functional.service;
 
-import main.java.clean.code.domain.functional.model.PackType;
+import clean.code.domain.functional.model.PackType;
 
 interface OpenPackConfigurationFactory {
 

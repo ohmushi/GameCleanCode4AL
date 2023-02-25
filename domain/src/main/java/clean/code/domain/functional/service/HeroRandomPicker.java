@@ -1,12 +1,12 @@
-package main.java.clean.code.domain.functional.service;
+package clean.code.domain.functional.service;
 
 import io.vavr.API;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
-import main.java.clean.code.domain.ApplicationError;
-import main.java.clean.code.domain.functional.model.Hero;
-import main.java.clean.code.domain.functional.model.PackType;
-import main.java.clean.code.domain.ports.server.HeroPersistenceSpi;
+import clean.code.domain.ApplicationError;
+import clean.code.domain.functional.model.Hero;
+import clean.code.domain.functional.model.PackType;
+import clean.code.domain.ports.server.HeroPersistenceSpi;
 
 import java.util.List;
 import java.util.Random;

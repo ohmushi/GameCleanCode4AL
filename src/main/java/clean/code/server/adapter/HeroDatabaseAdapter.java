@@ -1,8 +1,8 @@
 package clean.code.server.adapter;
 
-import main.java.clean.code.domain.ApplicationError;
-import main.java.clean.code.domain.functional.model.Hero;
-import main.java.clean.code.domain.ports.server.HeroPersistenceSpi;
+import clean.code.domain.ApplicationError;
+import clean.code.domain.functional.model.Hero;
+import clean.code.domain.ports.server.HeroPersistenceSpi;
 import clean.code.server.mapper.HeroEntityMapper;
 import clean.code.server.repository.HeroRepository;
 import io.vavr.API;

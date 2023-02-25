@@ -1,13 +1,13 @@
 package clean.code.bootstrap.config.domain;
 
-import main.java.clean.code.domain.functional.service.*;
-import main.java.clean.code.domain.functional.service.validation.HeroValidator;
-import main.java.clean.code.domain.ports.client.*;
-import main.java.clean.code.domain.ports.server.HeroPersistenceSpi;
-import main.java.clean.code.domain.ports.server.PlayerPersistenceSpi;
+import clean.code.domain.functional.service.*;
+import clean.code.domain.functional.service.validation.HeroValidator;
+import clean.code.domain.ports.client.*;
+import clean.code.domain.ports.server.HeroPersistenceSpi;
+import clean.code.domain.ports.server.PlayerPersistenceSpi;
 import clean.code.server.adapter.PlayerMongoDatabaseAdapter;
 import clean.code.server.repository.PlayerRepository;
-import main.java.clean.code.domain.ports.client.HeroCreatorApi;
+import clean.code.domain.ports.client.HeroCreatorApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

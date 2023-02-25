@@ -1,4 +1,4 @@
-package main.java.clean.code.domain.functional.service;
+package clean.code.domain.functional.service;
 
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
@@ -8,10 +8,10 @@ import io.vavr.control.Either;
 import io.vavr.control.Validation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import main.java.clean.code.domain.ApplicationError;
-import main.java.clean.code.domain.functional.model.*;
-import main.java.clean.code.domain.ports.client.PackOpenerApi;
-import main.java.clean.code.domain.ports.server.PlayerPersistenceSpi;
+import clean.code.domain.ApplicationError;
+import clean.code.domain.functional.model.*;
+import clean.code.domain.ports.client.PackOpenerApi;
+import clean.code.domain.ports.server.PlayerPersistenceSpi;
 
 import java.util.UUID;
 

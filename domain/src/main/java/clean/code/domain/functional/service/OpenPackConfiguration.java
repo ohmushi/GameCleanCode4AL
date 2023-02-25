@@ -1,4 +1,4 @@
-package main.java.clean.code.domain.functional.service;
+package clean.code.domain.functional.service;
 
 public record OpenPackConfiguration(
           Integer nbCards

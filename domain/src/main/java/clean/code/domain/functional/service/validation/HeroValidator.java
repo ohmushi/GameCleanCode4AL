@@ -1,8 +1,8 @@
-package main.java.clean.code.domain.functional.service.validation;
+package clean.code.domain.functional.service.validation;
 
 import io.vavr.control.Validation;
-import main.java.clean.code.domain.ApplicationError;
-import main.java.clean.code.domain.functional.model.Hero;
+import clean.code.domain.ApplicationError;
+import clean.code.domain.functional.model.Hero;
 
 import java.util.List;
 

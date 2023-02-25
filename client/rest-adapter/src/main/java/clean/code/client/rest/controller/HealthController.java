@@ -1,4 +1,4 @@
-package main.java.clean.code.client.rest.controller;
+package clean.code.client.rest.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

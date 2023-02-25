@@ -1,7 +1,7 @@
 package clean.code.server.mapper;
 
-import main.java.clean.code.domain.functional.model.Card;
-import main.java.clean.code.domain.functional.model.Hero;
+import clean.code.domain.functional.model.Card;
+import clean.code.domain.functional.model.Hero;
 import clean.code.server.entity.CardEntity;
 import clean.code.server.entity.HeroEntity;
 

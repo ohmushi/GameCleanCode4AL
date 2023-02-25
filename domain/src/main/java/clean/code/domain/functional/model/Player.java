@@ -1,4 +1,4 @@
-package main.java.clean.code.domain.functional.model;
+package clean.code.domain.functional.model;
 
 import io.vavr.collection.Array;
 import lombok.*;

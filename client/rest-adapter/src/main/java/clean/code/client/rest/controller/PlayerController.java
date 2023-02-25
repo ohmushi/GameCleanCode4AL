@@ -1,13 +1,13 @@
-package main.java.clean.code.client.rest.controller;
+package clean.code.client.rest.controller;
 
 import lombok.RequiredArgsConstructor;
-import main.java.clean.code.client.rest.dto.PlayerRegistrationRequest;
-import main.java.clean.code.client.rest.mapper.PackDtoMapper;
-import main.java.clean.code.client.rest.mapper.PlayerDtoMapper;
-import main.java.clean.code.domain.functional.model.PackType;
-import main.java.clean.code.domain.ports.client.PackOpenerApi;
-import main.java.clean.code.domain.ports.client.PlayerFinderApi;
-import main.java.clean.code.domain.ports.client.PlayerRegisterApi;
+import clean.code.client.rest.dto.PlayerRegistrationRequest;
+import clean.code.client.rest.mapper.PackDtoMapper;
+import clean.code.client.rest.mapper.PlayerDtoMapper;
+import clean.code.domain.functional.model.PackType;
+import clean.code.domain.ports.client.PackOpenerApi;
+import clean.code.domain.ports.client.PlayerFinderApi;
+import clean.code.domain.ports.client.PlayerRegisterApi;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,7 +1,7 @@
-package main.java.clean.code.client.rest.mapper;
+package clean.code.client.rest.mapper;
 
-import main.java.clean.code.client.rest.dto.CardDto;
-import main.java.clean.code.domain.functional.model.Card;
+import clean.code.client.rest.dto.CardDto;
+import clean.code.domain.functional.model.Card;
 
 public interface CardDtoMapper {
 

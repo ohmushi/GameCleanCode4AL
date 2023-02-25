@@ -1,7 +1,7 @@
-package main.java.clean.code.domain.functional.service;
+package clean.code.domain.functional.service;
 
 import lombok.RequiredArgsConstructor;
-import main.java.clean.code.domain.functional.model.PackType;
+import clean.code.domain.functional.model.PackType;
 
 import java.util.Random;
 

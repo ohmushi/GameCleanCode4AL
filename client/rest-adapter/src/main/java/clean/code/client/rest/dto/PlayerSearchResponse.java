@@ -1,4 +1,4 @@
-package main.java.clean.code.client.rest.dto;
+package clean.code.client.rest.dto;
 
 public record PlayerSearchResponse(
         String id,
