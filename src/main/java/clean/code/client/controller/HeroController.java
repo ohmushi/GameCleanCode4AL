@@ -2,8 +2,8 @@ package clean.code.client.controller;
 
 import clean.code.client.dto.HeroCreationDto;
 import clean.code.client.mapper.HeroDtoMapper;
-import clean.code.domain.ports.client.HeroCreatorApi;
-import clean.code.domain.ports.client.HeroFinderApi;
+import main.java.clean.code.domain.ports.client.HeroCreatorApi;
+import main.java.clean.code.domain.ports.client.HeroFinderApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

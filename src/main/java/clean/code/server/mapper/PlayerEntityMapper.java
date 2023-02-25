@@ -1,7 +1,7 @@
 package clean.code.server.mapper;
 
-import clean.code.domain.functional.model.Deck;
-import clean.code.domain.functional.model.Player;
+import main.java.clean.code.domain.functional.model.Deck;
+import main.java.clean.code.domain.functional.model.Player;
 import clean.code.server.entity.PlayerEntity;
 
 import java.util.UUID;

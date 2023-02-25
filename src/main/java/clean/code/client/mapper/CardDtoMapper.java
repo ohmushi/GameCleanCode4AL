@@ -3,8 +3,8 @@ package clean.code.client.mapper;
 import clean.code.client.dto.CardDto;
 import clean.code.client.dto.HeroCreationDto;
 import clean.code.client.dto.HeroDto;
-import clean.code.domain.functional.model.Card;
-import clean.code.domain.functional.model.Hero;
+import main.java.clean.code.domain.functional.model.Card;
+import main.java.clean.code.domain.functional.model.Hero;
 
 public interface CardDtoMapper {
 

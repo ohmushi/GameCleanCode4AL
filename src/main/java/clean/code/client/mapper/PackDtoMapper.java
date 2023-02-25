@@ -1,7 +1,7 @@
 package clean.code.client.mapper;
 
 import clean.code.client.dto.PackResponse;
-import clean.code.domain.functional.model.Pack;
+import main.java.clean.code.domain.functional.model.Pack;
 
 public interface PackDtoMapper {
     static PackResponse toDto(Pack pack) {

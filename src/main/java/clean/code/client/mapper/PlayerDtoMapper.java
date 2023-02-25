@@ -3,7 +3,7 @@ package clean.code.client.mapper;
 import clean.code.client.dto.PlayerRegistrationRequest;
 import clean.code.client.dto.PlayerDefaultResponse;
 import clean.code.client.dto.PlayerSearchResponse;
-import clean.code.domain.functional.model.Player;
+import main.java.clean.code.domain.functional.model.Player;
 
 public interface PlayerDtoMapper {
 
