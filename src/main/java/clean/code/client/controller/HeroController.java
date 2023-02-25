@@ -39,6 +39,6 @@ public class HeroController {
     public ResponseEntity<Object> findOneHero(@PathVariable("id") UUID id) {
         return heroFinderApi.findById(id)
                 .map(HeroDtoMapper::toDto)
-                .fold(ResponseEntity.status(HttpStatus.NOT_FOUND)::body, ResponseEntity::ok);
+                .fold(ResponseEntity.notFound()::build, ResponseEntity::ok);
     }
 }

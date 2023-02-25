@@ -9,6 +9,7 @@ import clean.code.domain.ports.client.HeroFinderApi;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.vavr.control.Either;
+import io.vavr.control.Option;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +77,7 @@ class HeroControllerTest {
         val id = UUID.randomUUID();
         val expected = Hero.builder().id(id).build();
 
-        when(heroFinderApi.findById(id)).thenReturn(Either.right(expected));
+        when(heroFinderApi.findById(id)).thenReturn(Option.of(expected));
 
         this.mockMvc.perform(get("/heroes/" + id))
                 .andExpect(status().isOk())
@@ -91,11 +92,10 @@ class HeroControllerTest {
         val id = UUID.randomUUID();
         val expected = new ApplicationError(null, null, null);
 
-        when(heroFinderApi.findById(id)).thenReturn(Either.left(expected));
+        when(heroFinderApi.findById(id)).thenReturn(Option.none());
 
         this.mockMvc.perform(get("/heroes/" + id))
-                .andExpect(status().isNotFound())
-                .andExpect(content().string(objectMapper.writeValueAsString(expected)));
+                .andExpect(status().isNotFound());
 
         verify(heroFinderApi).findById(id);
         verifyNoMoreInteractions(heroFinderApi);

@@ -7,6 +7,7 @@ import clean.code.server.mapper.HeroEntityMapper;
 import clean.code.server.repository.HeroRepository;
 import io.vavr.API;
 import io.vavr.control.Either;
+import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,11 +38,8 @@ public class HeroDatabaseAdapter implements HeroPersistenceSpi {
     }
 
     @Override
-    public Either<ApplicationError, Optional<Hero>> findById(UUID id) {
-        return API.Try(() -> repository.findById(id))
-                .toEither()
-                .mapLeft(throwable -> new ApplicationError("Unable to find hero by id", id, throwable))
-                .map(optional -> optional.map(HeroEntityMapper::toDomain));
+    public Option<Hero> findById(UUID id) {
+        return Option.ofOptional(repository.findById(id)).map(HeroEntityMapper::toDomain);
     }
 
     @Override

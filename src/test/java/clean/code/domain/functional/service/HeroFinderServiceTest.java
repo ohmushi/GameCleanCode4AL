@@ -4,6 +4,7 @@ import clean.code.domain.ApplicationError;
 import clean.code.domain.functional.model.Hero;
 import clean.code.domain.ports.server.HeroPersistenceSpi;
 import io.vavr.control.Either;
+import io.vavr.control.Option;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,10 +54,10 @@ class HeroFinderServiceTest {
     void should_find_by_id() {
         val id = UUID.randomUUID();
         val given = Hero.builder().id(id).name("Test hero").power(10).armor(10).hp(10).speciality("TANK").rarity("COMMON").build();
-        when(spi.findById(id)).thenReturn(Either.right(Optional.of(given)));
+        when(spi.findById(id)).thenReturn(Option.of(given));
 
         val actual = service.findById(id);
-        assertThat(actual).containsRightSame(given);
+        assertThat(actual).contains(given);
 
         verify(spi).findById(id);
         verifyNoMoreInteractions(spi);
@@ -65,10 +66,10 @@ class HeroFinderServiceTest {
     @Test
     void should_not_find_by_id() {
         val id = UUID.randomUUID();
-        when(spi.findById(id)).thenReturn(Either.right(Optional.empty()));
+        when(spi.findById(id)).thenReturn(Option.none());
 
         val actual = service.findById(id);
-        assertThat(actual).containsLeftInstanceOf(ApplicationError.class);
+        assertThat(actual).isEmpty();
 
         verify(spi).findById(id);
         verifyNoMoreInteractions(spi);

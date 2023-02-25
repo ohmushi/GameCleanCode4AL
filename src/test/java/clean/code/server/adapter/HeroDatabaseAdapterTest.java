@@ -60,8 +60,8 @@ class HeroDatabaseAdapterTest {
         when(repository.findById(id)).thenReturn(Optional.empty());
 
         val actual = adapter.findById(id);
-        VavrAssertions.assertThat(actual).containsRightInstanceOf(Optional.class);
-        Assertions.assertThat(actual.get()).isEmpty();
+
+        Assertions.assertThat(actual).isEmpty();
 
         verify(repository).findById(id);
         verifyNoMoreInteractions(repository);
@@ -76,23 +76,7 @@ class HeroDatabaseAdapterTest {
 
         val actual = adapter.findById(id);
 
-        VavrAssertions.assertThat(actual).containsRightInstanceOf(Optional.class);
-        Assertions.assertThat(actual.get()).isNotEmpty();
-        Assertions.assertThat(actual.get()).usingRecursiveComparison().isEqualTo(Optional.of(given));
-
-        verify(repository).findById(id);
-        verifyNoMoreInteractions(repository);
-    }
-
-    @Test
-    void should_not_find_by_id_if_repository_crash() {
-        val id = UUID.randomUUID();
-        val throwable = new RuntimeException();
-        doThrow(throwable).when(repository).findById(id);
-
-        val actual = adapter.findById(id);
-        VavrAssertions.assertThat(actual).containsLeftInstanceOf(ApplicationError.class);
-        Assertions.assertThat(actual).isEmpty();
+        VavrAssertions.assertThat(actual).contains(given);
 
         verify(repository).findById(id);
         verifyNoMoreInteractions(repository);
