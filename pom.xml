@@ -32,6 +32,7 @@
     <module>domain</module>
     <module>client</module>
     <module>server</module>
+    <module>bootstrap</module>
 </modules>
 
 <properties>
@@ -54,7 +55,17 @@
         <dependency>
             <groupId>cat.clean.code</groupId>
             <artifactId>domain</artifactId>
-            <version>0.0.1</version>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cat.clean.code</groupId>
+            <artifactId>mongo-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cat.clean.code</groupId>
+            <artifactId>rest-adapter</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
