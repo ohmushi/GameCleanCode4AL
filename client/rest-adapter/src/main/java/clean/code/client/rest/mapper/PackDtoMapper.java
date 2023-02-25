@@ -1,6 +1,6 @@
-package clean.code.client.mapper;
+package main.java.clean.code.client.rest.mapper;
 
-import clean.code.client.dto.PackResponse;
+import main.java.clean.code.client.rest.dto.PackResponse;
 import main.java.clean.code.domain.functional.model.Pack;
 
 public interface PackDtoMapper {

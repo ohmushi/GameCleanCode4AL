@@ -1,10 +1,10 @@
-package clean.code.client.controller;
+package main.java.clean.code.client.rest.controller;
 
-import clean.code.client.dto.HeroCreationDto;
-import clean.code.client.mapper.HeroDtoMapper;
+import lombok.RequiredArgsConstructor;
+import main.java.clean.code.client.rest.dto.HeroCreationDto;
+import main.java.clean.code.client.rest.mapper.HeroDtoMapper;
 import main.java.clean.code.domain.ports.client.HeroCreatorApi;
 import main.java.clean.code.domain.ports.client.HeroFinderApi;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

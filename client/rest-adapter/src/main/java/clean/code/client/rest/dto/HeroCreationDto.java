@@ -1,4 +1,4 @@
-package clean.code.client.dto;
+package main.java.clean.code.client.rest.dto;
 
 public record HeroCreationDto(
     String name,

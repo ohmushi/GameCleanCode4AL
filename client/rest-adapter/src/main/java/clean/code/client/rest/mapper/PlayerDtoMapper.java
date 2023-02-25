@@ -1,8 +1,8 @@
-package clean.code.client.mapper;
+package main.java.clean.code.client.rest.mapper;
 
-import clean.code.client.dto.PlayerRegistrationRequest;
-import clean.code.client.dto.PlayerDefaultResponse;
-import clean.code.client.dto.PlayerSearchResponse;
+import main.java.clean.code.client.rest.dto.PlayerDefaultResponse;
+import main.java.clean.code.client.rest.dto.PlayerRegistrationRequest;
+import main.java.clean.code.client.rest.dto.PlayerSearchResponse;
 import main.java.clean.code.domain.functional.model.Player;
 
 public interface PlayerDtoMapper {
