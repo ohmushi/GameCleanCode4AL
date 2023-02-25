@@ -3,6 +3,7 @@ package clean.code.domain.functional.service;
 import clean.code.domain.ApplicationError;
 import clean.code.domain.functional.model.Card;
 import clean.code.domain.functional.model.FightResult;
+import clean.code.domain.functional.service.validation.CardOpponentValidator;
 import clean.code.domain.ports.client.CardFighterApi;
 import clean.code.domain.ports.server.CardPersistenceSpi;
 import io.vavr.Tuple;
@@ -25,6 +26,10 @@ public class CardFighterService implements CardFighterApi {
                 .toEither(new ApplicationError("Attacker not found", attackerId, null))
                 .flatMap(attacker -> spi.findById(defenderId)
                         .toEither(new ApplicationError("Defender not found", attackerId, null))
+                        .map(defender -> CardOpponentValidator.validate(defender, attacker.getLevel()))
+                        .flatMap(validationResult -> validationResult.isInvalid()
+                                ? Either.left(validationResult.getError())
+                                : Either.right(validationResult.get()))
                         .map(attacker::fight)
                         .map(result -> saveCardAndGetFightResult(Tuple.of(attacker, result))));
     }
