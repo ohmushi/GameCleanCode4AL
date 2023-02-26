@@ -30,8 +30,8 @@ class CardFighterServiceTest {
         val attackerId = UUID.randomUUID();
         val defenderId = UUID.randomUUID();
 
-        val attacker = Card.builder().id(attackerId).hp(10).armor(10).power(10).build();
-        val defender = Card.builder().id(defenderId).hp(5).armor(5).power(5).build();
+        val attacker = Card.builder().id(attackerId).hp(10).armor(10).power(10).speciality("TANK").rarity("COMMON").build();
+        val defender = Card.builder().id(defenderId).hp(5).armor(5).power(5).speciality("TANK").rarity("COMMON").build();
 
         when(spi.findById(attackerId)).thenReturn(Option.of(attacker));
         when(spi.findById(defenderId)).thenReturn(Option.of(defender));
