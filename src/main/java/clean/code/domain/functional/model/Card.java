@@ -6,6 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Value;
 import lombok.With;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @With
@@ -34,6 +36,9 @@ public class Card {
     @Builder.Default
     int level = 1;
 
+    @Builder.Default
+    List<FightResult> history = Collections.emptyList();
+
     public static Card fromHero(Hero hero) {
         return Card.builder()
             .name(hero.getName())
@@ -44,4 +49,33 @@ public class Card {
             .rarity(hero.getRarity())
             .build();
     }
+
+    public FightResult fight(Card opponent) {
+        Card tmpAttacker = this;
+        Card tmpDefender = opponent;
+
+        while (tmpAttacker.getHp() > 0 && tmpDefender.getHp() > 0) {
+
+            tmpDefender = tmpDefender.withHp(tmpDefender.getHp() - Math.max(0 ,(tmpAttacker.getPower() - tmpDefender.getArmor())));
+
+            if (tmpDefender.getHp() > 0) {
+                tmpAttacker = tmpAttacker.withHp(tmpAttacker.getHp() - Math.max(0, tmpDefender.getPower() - tmpAttacker.getArmor()));
+            } else {
+                return FightResult.builder()
+                    .opponent(opponent)
+                    .won(true)
+                    .build();
+            }
+
+            if (tmpAttacker.getHp() <= 0) {
+                return FightResult.builder()
+                    .opponent(opponent)
+                    .won(false)
+                    .build();
+            }
+        }
+
+        throw new IllegalStateException("Should not happen");
+    }
+
 }

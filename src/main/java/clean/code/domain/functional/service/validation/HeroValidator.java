@@ -6,9 +6,9 @@ import io.vavr.control.Validation;
 
 import java.util.List;
 
-public class HeroValidator {
+public interface HeroValidator {
 
-    public Validation<ApplicationError, Hero> validate(Hero hero) {
+    static Validation<ApplicationError, Hero> validate(Hero hero) {
         List<String> speciality = List.of("TANK", "ASSASSIN", "WIZARD");
         List<String> rarity = List.of("LEGENDARY", "RARE", "COMMON");
 

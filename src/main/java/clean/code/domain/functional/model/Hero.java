@@ -1,8 +1,5 @@
 package clean.code.domain.functional.model;
-
-
 import lombok.*;
-
 import java.util.UUID;
 
 @With

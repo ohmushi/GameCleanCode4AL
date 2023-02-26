@@ -18,7 +18,8 @@ public interface CardDtoMapper {
             card.getArmor(),
             card.getSpeciality(),
             card.getRarity(),
-            card.getLevel()
+            card.getLevel(),
+            card.getHistory().stream().map(FightResultDtoMapper::toDto).toList()
         );
     }
 }

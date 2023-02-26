@@ -3,6 +3,7 @@ package clean.code.bootstrap.config.domain;
 import clean.code.domain.functional.service.*;
 import clean.code.domain.functional.service.validation.HeroValidator;
 import clean.code.domain.ports.client.*;
+import clean.code.domain.ports.server.CardPersistenceSpi;
 import clean.code.domain.ports.server.HeroPersistenceSpi;
 import clean.code.domain.ports.server.PlayerPersistenceSpi;
 import clean.code.server.adapter.PlayerMongoDatabaseAdapter;
@@ -16,18 +17,17 @@ import java.util.Random;
 public class DomainConfiguration {
 
     @Bean
-    public HeroCreatorApi heroCreatorService(HeroPersistenceSpi spi, HeroValidator validator) {
-        return new HeroCreatorService(spi, validator);
-    }
-
-    @Bean
-    public HeroValidator heroValidator() {
-        return new HeroValidator();
+    public HeroCreatorApi heroCreatorService(HeroPersistenceSpi spi) {
+        return new HeroCreatorService(spi);
     }
 
     @Bean
     public HeroFinderApi heroFinderService(HeroPersistenceSpi spi) {
         return new HeroFinderService(spi);
+    }
+
+    @Bean CardFighterApi cardFighterService(CardPersistenceSpi spi) {
+        return new CardFighterService(spi);
     }
 
     @Bean
@@ -61,8 +61,8 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public PackOpenerApi packOpenerApi(PlayerPersistenceSpi playerPersistenceSpi, HeroRandomPicker heroRandomPicker) {
-        return new PackOpenerService(playerPersistenceSpi, heroRandomPicker);
+    public PackOpenerApi packOpenerApi(PlayerPersistenceSpi playerPersistenceSpi, CardPersistenceSpi cardPersistenceSpi, HeroRandomPicker heroRandomPicker) {
+        return new PackOpenerService(playerPersistenceSpi, cardPersistenceSpi, heroRandomPicker);
     }
 
 }

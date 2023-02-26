@@ -1,7 +1,9 @@
 package clean.code.client.controller;
 
 import clean.code.client.dto.HeroCreationDto;
+import clean.code.client.mapper.FightResultDtoMapper;
 import clean.code.client.mapper.HeroDtoMapper;
+import clean.code.domain.ports.client.CardFighterApi;
 import clean.code.domain.ports.client.HeroCreatorApi;
 import clean.code.domain.ports.client.HeroFinderApi;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +19,8 @@ import java.util.UUID;
 public class HeroController {
 
     private final HeroCreatorApi heroCreatorApi;
-
     private final HeroFinderApi heroFinderApi;
+
     @PostMapping
     public ResponseEntity<Object> createHero(@RequestBody HeroCreationDto dto) {
 
@@ -39,6 +41,6 @@ public class HeroController {
     public ResponseEntity<Object> findOneHero(@PathVariable("id") UUID id) {
         return heroFinderApi.findById(id)
                 .map(HeroDtoMapper::toDto)
-                .fold(ResponseEntity.status(HttpStatus.NOT_FOUND)::body, ResponseEntity::ok);
+                .fold(ResponseEntity.notFound()::build, ResponseEntity::ok);
     }
 }

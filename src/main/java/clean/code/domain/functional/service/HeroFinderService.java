@@ -5,6 +5,7 @@ import clean.code.domain.functional.model.Hero;
 import clean.code.domain.ports.client.HeroFinderApi;
 import clean.code.domain.ports.server.HeroPersistenceSpi;
 import io.vavr.control.Either;
+import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -20,13 +21,7 @@ public class HeroFinderService implements HeroFinderApi {
     }
 
     @Override
-    public Either<ApplicationError, Hero> findById(UUID id) {
-        return spi.findById(id).flatMap(hero -> {
-            if (hero.isEmpty()) {
-                return Either.left(new ApplicationError("Hero not found", id, null));
-            } else {
-                return Either.right(hero.get());
-            }
-        });
+    public Option<Hero> findById(UUID id) {
+        return spi.findById(id);
     }
 }

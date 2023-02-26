@@ -6,9 +6,9 @@ import clean.code.domain.ApplicationError;
 import clean.code.domain.functional.model.Hero;
 import clean.code.domain.ports.client.HeroCreatorApi;
 import clean.code.domain.ports.client.HeroFinderApi;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.vavr.control.Either;
+import io.vavr.control.Option;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +16,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -76,7 +74,7 @@ class HeroControllerTest {
         val id = UUID.randomUUID();
         val expected = Hero.builder().id(id).build();
 
-        when(heroFinderApi.findById(id)).thenReturn(Either.right(expected));
+        when(heroFinderApi.findById(id)).thenReturn(Option.of(expected));
 
         this.mockMvc.perform(get("/heroes/" + id))
                 .andExpect(status().isOk())
@@ -89,13 +87,11 @@ class HeroControllerTest {
     @Test
     void should_not_retrieve_hero() throws Exception {
         val id = UUID.randomUUID();
-        val expected = new ApplicationError(null, null, null);
 
-        when(heroFinderApi.findById(id)).thenReturn(Either.left(expected));
+        when(heroFinderApi.findById(id)).thenReturn(Option.none());
 
         this.mockMvc.perform(get("/heroes/" + id))
-                .andExpect(status().isNotFound())
-                .andExpect(content().string(objectMapper.writeValueAsString(expected)));
+                .andExpect(status().isNotFound());
 
         verify(heroFinderApi).findById(id);
         verifyNoMoreInteractions(heroFinderApi);
@@ -103,7 +99,7 @@ class HeroControllerTest {
 
     @Test
     void should_create_hero() throws Exception {
-        val dto = new HeroCreationDto("test", 1, 2, 3, "TANK", "COMMON");
+        val dto = new HeroCreationDto("test", "TANK", "COMMON");
         val expected = HeroDtoMapper.heroCreationToDomain(dto);
 
         when(heroCreatorApi.create(any(Hero.class))).thenReturn(Either.right(expected));
@@ -120,7 +116,7 @@ class HeroControllerTest {
 
     @Test
     void should_not_create_hero() throws Exception {
-        val dto = new HeroCreationDto("", 1, 2, 3, "TANK", "COMMON");
+        val dto = new HeroCreationDto("", "TANK", "COMMON");
         val expected = new ApplicationError(null, null, null);
 
         when(heroCreatorApi.create(any(Hero.class))).thenReturn(Either.left(expected));
