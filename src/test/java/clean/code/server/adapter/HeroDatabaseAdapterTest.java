@@ -57,13 +57,13 @@ class HeroDatabaseAdapterTest {
     @Test
     void should_not_find_by_id() {
         val id = UUID.randomUUID();
-        when(repository.findById(id)).thenReturn(Optional.empty());
+        when(repository.findById(id.toString())).thenReturn(Optional.empty());
 
         val actual = adapter.findById(id);
 
         Assertions.assertThat(actual).isEmpty();
 
-        verify(repository).findById(id);
+        verify(repository).findById(id.toString());
         verifyNoMoreInteractions(repository);
     }
 
@@ -72,13 +72,13 @@ class HeroDatabaseAdapterTest {
         val id = UUID.randomUUID();
         val given = Hero.builder().id(id).build();
         val entity = HeroEntityMapper.toHeroEntity(given);
-        when(repository.findById(id)).thenReturn(Optional.of(entity));
+        when(repository.findById(id.toString())).thenReturn(Optional.of(entity));
 
         val actual = adapter.findById(id);
 
         VavrAssertions.assertThat(actual).contains(given);
 
-        verify(repository).findById(id);
+        verify(repository).findById(id.toString());
         verifyNoMoreInteractions(repository);
     }
 

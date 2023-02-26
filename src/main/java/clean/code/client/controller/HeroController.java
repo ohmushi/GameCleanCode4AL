@@ -19,7 +19,6 @@ import java.util.UUID;
 public class HeroController {
 
     private final HeroCreatorApi heroCreatorApi;
-    private final CardFighterApi cardFighterApi;
     private final HeroFinderApi heroFinderApi;
 
     @PostMapping
@@ -43,12 +42,5 @@ public class HeroController {
         return heroFinderApi.findById(id)
                 .map(HeroDtoMapper::toDto)
                 .fold(ResponseEntity.notFound()::build, ResponseEntity::ok);
-    }
-
-    @GetMapping(path = "/{attacker}/fight/{defender}")
-    public ResponseEntity<Object> fight(@PathVariable("attacker") UUID attacker, @PathVariable("defender") UUID defender) {
-        return cardFighterApi.fight(attacker, defender)
-                .map(FightResultDtoMapper::toDto)
-                .fold(ResponseEntity.badRequest()::body, ResponseEntity::ok);
     }
 }
