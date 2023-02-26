@@ -2,7 +2,7 @@ name: dockerhub
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, deployment/* ]
 
 jobs:
   dockerhub:
@@ -17,6 +17,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: replace application.properties vars
+        run: |
+          sed -i 's|spring.data.mongodb.uri=.*|spring.data.mongodb.uri='"${{ secrets.MONGODB_URL }}"'|g' ./src/main/java/clean/code/bootstrap/ressources/application.properties
 
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
