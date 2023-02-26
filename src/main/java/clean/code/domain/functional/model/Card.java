@@ -75,7 +75,7 @@ public class Card {
             }
         }
 
-        return null;
+        throw new IllegalStateException("Should not happen");
     }
 
 }
