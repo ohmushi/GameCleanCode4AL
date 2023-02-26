@@ -17,13 +17,8 @@ import java.util.Random;
 public class DomainConfiguration {
 
     @Bean
-    public HeroCreatorApi heroCreatorService(HeroPersistenceSpi spi, HeroValidator validator) {
-        return new HeroCreatorService(spi, validator);
-    }
-
-    @Bean
-    public HeroValidator heroValidator() {
-        return new HeroValidator();
+    public HeroCreatorApi heroCreatorService(HeroPersistenceSpi spi) {
+        return new HeroCreatorService(spi);
     }
 
     @Bean

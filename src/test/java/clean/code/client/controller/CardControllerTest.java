@@ -1,6 +1,7 @@
 package clean.code.client.controller;
 
 import clean.code.domain.ApplicationError;
+import clean.code.domain.functional.model.Card;
 import clean.code.domain.functional.model.FightResult;
 import clean.code.domain.ports.client.CardFighterApi;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,13 +36,14 @@ class CardControllerTest {
 
     @Test
     void should_fight() throws Exception {
-        val expected = FightResult.builder().build();
-        val attackerId = UUID.randomUUID();
         val defenderId = UUID.randomUUID();
+        val defender = Card.builder().id(defenderId).build();
+        val expected = FightResult.builder().opponent(defender).build();
+        val attackerId = UUID.randomUUID();
 
         when(cardFighterApi.fight(any(UUID.class), any(UUID.class))).thenReturn(Either.right(expected));
 
-        this.mockMvc.perform(get("/" + attackerId + "/fight/" + defenderId))
+        this.mockMvc.perform(get("/cards/" + attackerId + "/fight/" + defenderId))
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(expected)));
 
@@ -57,7 +59,7 @@ class CardControllerTest {
 
         when(cardFighterApi.fight(any(UUID.class), any(UUID.class))).thenReturn(Either.left(expected));
 
-        this.mockMvc.perform(get("/" +  attackerId + "/fight/" + defenderId))
+        this.mockMvc.perform(get("/cards/" +  attackerId + "/fight/" + defenderId))
                 .andExpect(status().isBadRequest());
 
         verify(cardFighterApi).fight(attackerId, defenderId);

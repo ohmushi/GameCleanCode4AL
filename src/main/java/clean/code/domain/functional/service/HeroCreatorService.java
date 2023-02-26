@@ -15,12 +15,19 @@ public class HeroCreatorService implements HeroCreatorApi {
 
     private final HeroPersistenceSpi spi;
 
-    private final HeroValidator validator;
-
     @Override
     public Either<ApplicationError, Hero> create(Hero hero) {
-        return validator.validate(hero)
+        return HeroValidator.validate(hero)
+                .map(this::applyConfiguration)
                 .toEither()
                 .flatMap(spi::save);
+    }
+
+    private Hero applyConfiguration(Hero hero) {
+        HeroCreationConfiguration configuration = HeroCreationConfigurationFactory.forSpeciality(hero.getSpeciality());
+
+        return hero.withHp(configuration.hpAtLevel1())
+                .withPower(configuration.powerAtLevel1())
+                .withArmor(configuration.armorAtLevel1());
     }
 }

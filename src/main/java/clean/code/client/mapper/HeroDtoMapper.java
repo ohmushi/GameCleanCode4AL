@@ -21,9 +21,6 @@ public interface HeroDtoMapper {
     static Hero heroCreationToDomain(HeroCreationDto dto) {
         return Hero.builder()
             .name(dto.name())
-            .hp(dto.hp())
-            .power(dto.power())
-            .armor(dto.armor())
             .speciality(dto.speciality())
             .rarity(dto.rarity())
             .build();

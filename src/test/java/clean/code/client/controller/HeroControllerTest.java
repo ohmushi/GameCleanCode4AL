@@ -99,7 +99,7 @@ class HeroControllerTest {
 
     @Test
     void should_create_hero() throws Exception {
-        val dto = new HeroCreationDto("test", 1, 2, 3, "TANK", "COMMON");
+        val dto = new HeroCreationDto("test", "TANK", "COMMON");
         val expected = HeroDtoMapper.heroCreationToDomain(dto);
 
         when(heroCreatorApi.create(any(Hero.class))).thenReturn(Either.right(expected));
@@ -116,7 +116,7 @@ class HeroControllerTest {
 
     @Test
     void should_not_create_hero() throws Exception {
-        val dto = new HeroCreationDto("", 1, 2, 3, "TANK", "COMMON");
+        val dto = new HeroCreationDto("", "TANK", "COMMON");
         val expected = new ApplicationError(null, null, null);
 
         when(heroCreatorApi.create(any(Hero.class))).thenReturn(Either.left(expected));
