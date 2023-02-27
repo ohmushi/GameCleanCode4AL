@@ -26,8 +26,8 @@ public class DomainConfiguration {
         return new HeroFinderService(spi);
     }
 
-    @Bean CardFighterApi cardFighterService(CardPersistenceSpi spi) {
-        return new CardFighterService(spi);
+    @Bean CardFighterApi cardFighterService(CardPersistenceSpi cardSpi, PlayerPersistenceSpi playerSpi) {
+        return new CardFighterService(cardSpi, playerSpi);
     }
 
     @Bean

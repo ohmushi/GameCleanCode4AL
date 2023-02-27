@@ -46,7 +46,11 @@ public class PackOpenerService implements PackOpenerApi {
 
     private Either<ApplicationError,Tuple2<Pack, Player>> generateRandomPackAndAddHeroesInPlayersDeck(Player player, PackType type, Integer nbCards) {
         return getRandomPackOfType(type, nbCards)
-                .map(pack -> Tuple.of(pack, player.addCardsInDeck(pack.getHeroes().stream().map(Card::fromHero).toList())));
+                .map(pack -> Tuple.of(pack, player.addCardsInDeck(pack.getHeroes()
+                        .stream()
+                        .map(Card::fromHero)
+                        .map(card -> card.withPlayerId(player.getId().toString()))
+                        .toList())));
     }
 
     private Either<ApplicationError, Pack> getRandomPackOfType(PackType type, Integer nbCards) {

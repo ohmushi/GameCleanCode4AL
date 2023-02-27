@@ -18,6 +18,7 @@ public class PlayerEntity {
 
     private String nickname;
     private Integer tokens;
+    private Integer winCount;
 
     @DBRef
     private List<CardEntity> cards;

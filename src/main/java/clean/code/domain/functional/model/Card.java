@@ -36,6 +36,8 @@ public class Card {
     @Builder.Default
     int level = 1;
 
+    String playerId;
+
     @Builder.Default
     List<FightResult> history = Collections.emptyList();
 

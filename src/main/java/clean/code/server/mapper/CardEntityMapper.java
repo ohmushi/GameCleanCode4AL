@@ -21,6 +21,7 @@ public interface CardEntityMapper {
                 .rarity(entity.getRarity())
                 .level(entity.getLevel())
                 .history(entity.getHistory().stream().map(FightResultEntityMapper::toDomain).toList())
+                .playerId(entity.getPlayerId())
                 .build();
     }
 
@@ -36,6 +37,7 @@ public interface CardEntityMapper {
                 .rarity(domain.getRarity())
                 .level(domain.getLevel())
                 .history(domain.getHistory().stream().map(FightResultEntityMapper::toEntity).toList())
+                .playerId(domain.getPlayerId())
                 .build();
     }
 }
