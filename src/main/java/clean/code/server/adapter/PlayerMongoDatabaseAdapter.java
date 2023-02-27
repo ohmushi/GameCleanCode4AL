@@ -42,9 +42,4 @@ public class PlayerMongoDatabaseAdapter implements PlayerPersistenceSpi {
                 .mapLeft(e -> new ApplicationError("Unable to find players by nickname", example, e))
                 .map(players -> players.stream().map(PlayerEntityMapper::toDomain).toList());
     }
-
-    @Override
-    public Option<Player> findOwnerOfCard(UUID cardId) {
-        return null;
-    }
 }

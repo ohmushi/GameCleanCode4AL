@@ -14,6 +14,7 @@ public interface PlayerEntityMapper {
                 .nickname(entity.getNickname())
                 .tokens(entity.getTokens())
                 .deck(new Deck(entity.getCards().stream().map(CardEntityMapper::toDomain).toList()))
+                .winCount(entity.getWinCount())
                 .build();
     }
 
@@ -23,6 +24,7 @@ public interface PlayerEntityMapper {
                 .nickname(domain.getNickname())
                 .tokens(domain.getTokens())
                 .cards(domain.getDeck().getCards().stream().map(CardEntityMapper::toCardEntity).toList())
+                .winCount(domain.getWinCount())
                 .build();
     }
 }

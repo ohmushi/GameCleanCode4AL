@@ -15,6 +15,4 @@ public interface PlayerPersistenceSpi {
     Option<Player> findById(UUID playerId);
 
     Either<ApplicationError, List<Player>> findAll(String nickname);
-
-    Option<Player> findOwnerOfCard(UUID attackerId);
 }

@@ -33,41 +33,38 @@ public class CardFighterService implements CardFighterApi {
                                 ? Either.left(validationResult.getError())
                                 : Either.right(validationResult.get()))
                         .map(attacker::fight)
-                        .map(result -> saveCardAndGetFightResult(Tuple.of(attacker, result))))
-                .flatMap(result -> updatePlayerTokens(attackerId, result));
+                        .flatMap(result -> saveCardAndGetFightResult(Tuple.of(attacker, result))))
+                .flatMap(cardAndResult -> updatePlayerTokens(cardAndResult));
     }
 
-    private Either<ApplicationError,FightResult> updatePlayerTokens(UUID attackerId, FightResult result) {
-        if (!result.isWon()) return Either.right(result);
+    private Either<ApplicationError,FightResult> updatePlayerTokens(Tuple2<Card, FightResult> cardFightResult) {
+        if (!cardFightResult._2.isWon()) return Either.right(cardFightResult._2);
 
-        return this.playerSpi.findOwnerOfCard(attackerId)
-                .toEither(new ApplicationError("Player not found by cardId", attackerId, null))
-                .flatMap(this::addOneTokenToPlayerIfFifthWin)
+        final var playerId = UUID.fromString(cardFightResult._1.getPlayerId());
+        return this.playerSpi.findById(playerId)
+                .toEither(new ApplicationError("Player not found by cardId", playerId, null))
+                .map(this::incrementWinCount)
+                .map(this::addOneTokenToPlayerIfFifthWin)
                 .flatMap(this.playerSpi::save)
-                .map(player -> result);
+                .map(player -> cardFightResult._2);
     }
 
-    private Either<ApplicationError, Player> addOneTokenToPlayerIfFifthWin(Player player) {
-        final var numberOfWins = player.getDeck().getCards().stream()
-                .map(Card::getHistory)
-                .reduce(new ArrayList<FightResult>(), (a, b) -> {
-                    a.addAll(b);
-                    return a;
-                })
-                .stream()
-                .filter(FightResult::isWon)
-                .count();
-        if(numberOfWins % 5 == 0) {
-            return playerSpi.save(player.withTokens(player.getTokens() + 1));
-        } else {
-            return Either.right(player);
+    private Player incrementWinCount(Player player) {
+        return player.withWinCount(player.getWinCount() + 1);
+    }
+
+    private Player addOneTokenToPlayerIfFifthWin(Player player) {
+        if(player.getWinCount() >= 5) {
+            return player
+                    .withTokens(player.getTokens() + 1)
+                    .withWinCount(0);
         }
-
+        return player;
     }
 
-    private FightResult saveCardAndGetFightResult(Tuple2<Card, FightResult> cardAndFightResult) {
-        cardSpi.save(resolveFight(cardAndFightResult._1, cardAndFightResult._2));
-        return cardAndFightResult._2;
+    private Either<ApplicationError, Tuple2<Card, FightResult>> saveCardAndGetFightResult(Tuple2<Card, FightResult> cardAndFightResult) {
+        return cardSpi.save(resolveFight(cardAndFightResult._1, cardAndFightResult._2))
+                .map(card -> cardAndFightResult);
     }
 
     private Card resolveFight(Card attacker, FightResult fightResult) {
