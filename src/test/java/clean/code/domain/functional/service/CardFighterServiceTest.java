@@ -36,10 +36,9 @@ class CardFighterServiceTest {
         val defenderId = UUID.randomUUID();
 
         val givenPlayer = Player.builder().id(UUID.randomUUID()).build();
-
-        val attacker = Card.builder().id(attackerId).hp(10).armor(10).power(10)
+        val attacker = Card.builder().id(attackerId).hp(10).armor(10).power(10).speciality("TANK").rarity("COMMON")
                 .playerId(givenPlayer.getId().toString()).build();
-        val defender = Card.builder().id(defenderId).hp(5).armor(5).power(5).build();
+        val defender = Card.builder().id(defenderId).hp(5).armor(5).power(5).speciality("TANK").rarity("COMMON").build();
 
 
 

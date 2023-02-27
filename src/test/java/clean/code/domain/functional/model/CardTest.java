@@ -12,8 +12,8 @@ class CardTest {
 
     @Test
     void should_win_fight() {
-        val card = Card.builder().hp(100).power(100).armor(100).build();
-        val opponent = Card.builder().hp(10).power(10).armor(10).build();
+        val card = Card.builder().hp(100).power(100).armor(100).speciality("TANK").rarity("COMMON").build();
+        val opponent = Card.builder().hp(10).power(10).armor(10).speciality("TANK").rarity("COMMON").build();
         val expected = FightResult.builder().opponent(opponent).won(true).build();
 
         val actual = card.fight(opponent);
@@ -22,8 +22,8 @@ class CardTest {
 
     @Test
     void should_lose_fight() {
-        val card = Card.builder().hp(10).power(10).armor(10).build();
-        val opponent = Card.builder().hp(100).power(100).armor(100).build();
+        val card = Card.builder().hp(10).power(10).armor(10).speciality("TANK").rarity("COMMON").build();
+        val opponent = Card.builder().hp(100).power(100).armor(100).speciality("TANK").rarity("COMMON").build();
         val expected = FightResult.builder().opponent(opponent).won(false).build();
 
         val actual = card.fight(opponent);

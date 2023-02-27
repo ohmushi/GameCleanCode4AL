@@ -58,10 +58,10 @@ public class Card {
 
         while (tmpAttacker.getHp() > 0 && tmpDefender.getHp() > 0) {
 
-            tmpDefender = tmpDefender.withHp(tmpDefender.getHp() - Math.max(0 ,(tmpAttacker.getPower() - tmpDefender.getArmor())));
+            tmpDefender = tmpDefender.withHp(tmpDefender.getHp() - calculateDamage(tmpAttacker, tmpDefender));
 
             if (tmpDefender.getHp() > 0) {
-                tmpAttacker = tmpAttacker.withHp(tmpAttacker.getHp() - Math.max(0, tmpDefender.getPower() - tmpAttacker.getArmor()));
+                tmpAttacker = tmpAttacker.withHp(tmpAttacker.getHp() - calculateDamage(tmpDefender, tmpAttacker));
             } else {
                 return FightResult.builder()
                     .opponent(opponent)
@@ -78,6 +78,22 @@ public class Card {
         }
 
         throw new IllegalStateException("Should not happen");
+    }
+
+    private int calculateDamage(Card attacker, Card defender) {
+        return Math.max(0, attacker.getPower() + getPowerBonus(attacker.speciality, defender.speciality) - defender.getArmor());
+    }
+
+    private int getPowerBonus(String attackerSpeciality, String defenderSpeciality) {
+        if (attackerSpeciality.equals("TANK") && defenderSpeciality.equals("WIZARD")) {
+            return 20;
+        } else if (attackerSpeciality.equals("ASSASSIN") && defenderSpeciality.equals("TANK")) {
+            return 30;
+        } else if (attackerSpeciality.equals("WIZARD") && defenderSpeciality.equals("ASSASSIN")) {
+            return 25;
+        } else {
+            return 0;
+        }
     }
 
 }
