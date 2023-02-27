@@ -1,5 +1,6 @@
 package clean.code.client.controller;
 
+import clean.code.client.mapper.FightResultDtoMapper;
 import clean.code.domain.ApplicationError;
 import clean.code.domain.functional.model.Card;
 import clean.code.domain.functional.model.FightResult;
@@ -45,7 +46,7 @@ class CardControllerTest {
 
         this.mockMvc.perform(get("/cards/" + attackerId + "/fight/" + defenderId))
                 .andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.writeValueAsString(expected)));
+                .andExpect(content().string(objectMapper.writeValueAsString(FightResultDtoMapper.toDto(expected))));
 
         verify(cardFighterApi).fight(attackerId, defenderId);
         verifyNoMoreInteractions(cardFighterApi);

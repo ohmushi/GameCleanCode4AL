@@ -54,7 +54,10 @@ class PackOpenerServiceTest {
         for(int i = 0; i < nbCards; i++) heroes.add(h);
         val expectedPack = new Pack(heroes);
         val expectedCardsInPlayer = new ArrayList<>(givenPlayer.getDeck().getCards());
-        expectedCardsInPlayer.addAll(expectedPack.getHeroes().stream().map(Card::fromHero).toList());
+        expectedCardsInPlayer.addAll(expectedPack.getHeroes().stream()
+                .map(Card::fromHero)
+                .map(card -> card.withPlayerId(givenPlayer.getId().toString()))
+                .toList());
         val expectedPlayer = Player.builder()
                 .id(givenPlayer.getId())
                 .tokens(givenPlayer.getTokens() - nbTokens)

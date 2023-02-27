@@ -31,4 +31,6 @@ public class CardEntity {
     private int level;
 
     private List<FightResultEntity> history;
+
+    private String playerId;
 }
