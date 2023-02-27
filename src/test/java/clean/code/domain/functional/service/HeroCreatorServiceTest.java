@@ -27,7 +27,7 @@ class HeroCreatorServiceTest {
 
     @Test
     void should_create() {
-        HeroCreationConfiguration configuration = HeroCreationConfigurationFactory.forSpeciality("TANK");
+        HeroCreationConfiguration configuration = HeroCreationConfigurationFactory.forSpeciality("TANK", "COMMON");
         val given = Hero.builder().name("Test hero")
                 .power(configuration.powerAtLevel1())
                 .armor(configuration.armorAtLevel1())

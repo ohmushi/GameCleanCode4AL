@@ -24,7 +24,7 @@ public class HeroCreatorService implements HeroCreatorApi {
     }
 
     private Hero applyConfiguration(Hero hero) {
-        HeroCreationConfiguration configuration = HeroCreationConfigurationFactory.forSpeciality(hero.getSpeciality());
+        HeroCreationConfiguration configuration = HeroCreationConfigurationFactory.forSpeciality(hero.getSpeciality(), hero.getRarity());
 
         return hero.withHp(configuration.hpAtLevel1())
                 .withPower(configuration.powerAtLevel1())
